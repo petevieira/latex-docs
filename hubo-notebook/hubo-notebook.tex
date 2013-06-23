@@ -1,6 +1,10 @@
 \documentclass[letterpaper, 10 pt]{report}
 
+% For handling graphics
+\usepackage{graphicx}
+% For colors
 \usepackage{color}
+% For hyperlink
 \usepackage{hyperref}
 \hypersetup{
     colorlinks,
@@ -8,51 +12,587 @@
     citecolor=black,
     filecolor=black,
     linkcolor=black,
-    urlcolor=black
+    urlcolor=blue
 }
 
 % -------------------------------------------------------------------------------------
-% BEGIN DOCUMENT
+% TITLE PAGE
 % -------------------------------------------------------------------------------------
 \begin{document}
-\title{Hubo Notebook}
-\author{Pete Vieira}
-\maketitle
-\pagestyle{empty}
+\begin{titlepage}
+\center
+% Headings
+\textsc{\LARGE Georgia Institute of Technology}\\[1.5cm]
+\textsc{\large Center for Robotics \& Intelligent Machines}\\[0.5cm]
+\textsc{\large Humanoid Robotics Lab}\\[0.5cm]
+% Title
+\rule{\linewidth}{0.5mm}\\[0.4cm]
+{\huge \bfseries Hubo Notebook}\\[0.4cm]
+\rule{\linewidth}{0.5mm}\\[1.5cm]
+% Author
+\textsc{\normalsize Peter Vieira}\\[1.5cm]
+% Image
+\includegraphics[width=5.0cm]{resources/hubo-titlepage}
+% Fill rest of page with whitespace
+\vfill
+\end{titlepage}
 
 % -------------------------------------------------------------------------------------
-% TABLE OF CONTENTS
+% JOURNAL ENTRIES
 % -------------------------------------------------------------------------------------
-\tableofcontents
-\newpage
 
-% -------------------------------------------------------------------------------------
-% INTRODUCTION
-% -------------------------------------------------------------------------------------
-\section{Introduction}
+%\section*{June 24}
+%\subsection*{Status}
+%\begin{itemize}
+%\item 
+%\end{itemize}
+
+\section*{June 22}
+\subsection*{Status}
 \begin{itemize}
-	\item First item in a list 
-		\begin{itemize}
-		\item First item in a list 
-			\begin{itemize}
-			\item First item in a list 
-			\item Second item in a list 
-			\end{itemize}
-		\item Second item in a list 
-		\end{itemize}
-	\item Second item in a list 
+\item Updated hubomz: merged grey/daemonize into master and cleaned up the code some.
+\item Now using master for hubomz and hubo\_walk, manipulation for hubo-motion-rt and
+develop for hubo-ach.
+\item Push Hubo's plastic pieces back on and packed everything for Drexel.
+\end{itemize}
+
+\section*{June 21}
+\subsection*{Status}
+\begin{itemize}
+\item On local PC start 'roscore' and 'rosrun rviz rviz'
+\item On hubo-vision start 'roslaunch openni\_launch openni.launch'
+\item 'export ROS\_MASTER\_URI=http://COMPUTER\_NAME:11311/'
+\item On local PC run 'rosrun rqt\_reconfigure rqt\_reconfigure' and check the camera/driver depth\_registered box
+\item On local PC run 'roslaunch hubo\_motion\_ros hubo\_manipulation.launch' (to see camera and hubo)
+\item On local PC run 'rosrun hubo\_drc\_vision segment\_image'
+\end{itemize}
+
+\section*{June 20}
+\subsection*{Status}
+\begin{itemize}
+\item Wrote a function to test the handle\_angles function in the manipulation-daemon and tested it. It worked fine.
+\item Read through basic understanding of Point Cloud Library.
+\item Wrote function to convert pcl PointCloud2 from camera to a PointXYZRGB and then compute the point cloud normals and store the two together as a PointXYZRGBNormal to be used for segmentation of planes
+\end{itemize}
+
+\section*{June 19}
+\subsection*{Status}
+\begin{itemize}
+\item Added function in manipulation daemon to handle raw joint angles for the arms instead of poses, because the IK was coming up with different angles than what was put into the FK on the ROS side.
+\item Change board limits for RSR and LSR so that going in toward Hubo's center the limit is 0.36 radians. Somehow they got messed up and were at 0.157 radians. Changed control.table to reflect this.
+\item Went through ROS tutorials: "Services \& Parameters", "Using rqt\_console and roslaunch", "Using rosed to edit files in ROS", "Creating a ROS msg and srv", "Writing a Simple Publisher and Subscriber", "Examining the Simple Publisher and Subscriber", "Writing a Simple Service and Client", "Examining the Simple Service and Client".
+\end{itemize}
+
+\section*{June 18}
+\subsection*{Status}
+\begin{itemize}
+\item Discovered control table has conservative limits on shoulder roll joints. Currently +/- 0.3, but really should be +/-0.4. Discuss reasons with Grey.
+roslaunch hubo\_motion\_ros hubo\_state.launch.
+\end{itemize}
+\subsection*{Todo}
+\begin{itemize}
+\item Get more accurate TF to checkerboard (Add to code)
+\item Change manip daemon to use joint angles
+\item Write test code for joint angles manip cmd
+\item Get better calibration points
+\end{itemize}
+
+\section*{June 16}
+\subsection*{Status}
+\begin{itemize}
+\item Fixed bug in zmp-daemon which caused discontinuity
+\item Got rid of unused code in zmp-daemon
+\item Merged risky/daemonize into grey/daemonize
+\end{itemize}
+
+\section*{June 13}
+\subsection*{Status}
+\begin{itemize}
+\item While testing current control using KAIST's method, Grey discovered that we'd been using Dan Lofaro's filter b/c in the control daemon use\_filter was set to false and then immediately set back to true.
+\item This cause lots of distortion using a .25s window, which screwed up the timing of the zmp walking.
+\item We tested trajectory without the filter and after fixing a bug it works fine now and the timing is accurate!
+\end{itemize}
+
+\section*{June 03}
+\subsection*{Status}
+\begin{itemize}
+\item Started writing zmp atomic trajectories concept.
+\item Basically, slice trajectories up into their individual steps so we can just piece them together. This way we can generate all atomic trajectories for each walk type all at once, and then use them on the fly, which gets rid of the generation time when changing directions.
+\end{itemize}
+
+\section*{June 01}
+\subsection*{Status}
+\begin{itemize}
+\item Wrote preview controller for model that includes angular momentum. It's located in ZmpPreview.h in hubomz/src
+\item Doesn't converge with current values
+\end{itemize}
+
+\section*{May 28}
+\subsection*{Status}
+\begin{itemize}
+\item Changed zmp-daemon to send one trajectory and have zmpgui/walker reuse the periodic portion of it.
+\item This decreased the cpu usage of zmp-daemon from 100\% to about 2\%.
+\end{itemize}
+
+\section*{May 13}
+\subsection*{Status}
+\begin{itemize}
+\item Got OpenGL zmpgui to run trajectories continuously.
+\end{itemize}
+
+\section*{May 12}
+\subsection*{Status}
+\begin{itemize}
+\item Added keyboard controls to zmp-daemon for walking forward/backward, sidestepping and turning.
 \end{itemize}
 
 
+\section*{May 11}
+\subsection*{Issues}
+\begin{itemize}
+\item Walktype "canned" doesn't account for initial conditions. Need to get rid of it and use footstep.cpp walk functions
+\item Where is best swap-in point? At end of double-support, have max CoM and joint velocities.
+\end{itemize}
+\subsection*{Thoughts}
+\begin{itemize}
+\item Use last ZMPReferenceContext element in the ref vector in walker after adding 2nd to last step as the initContext for the next trajectory.
+\end{itemize}
 
-\newpage
+\section*{May 10}
+\subsection*{Issues}
+\begin{enumerate}
+\item Discovered ach doesn't work between computers with different architectures. Need to made struct variables uint\#, etc. and use \_\_attribute\_\_((packed))
+\item Swapping in trajectories results in large joint velocities (ie. discontinuity). Something is wrong!
+\end{enumerate}
+\subsection*{Thoughts}
+\begin{enumerate}
+\item
+\begin{itemize}
+\item Change structs that we're passing over ach to \_\_attribute\_\_((packed)) and specify variable sizes using inttypes.h (ie. uint8)
+\end{itemize}
+\item
+\begin{itemize}
+\item Does walker modify joint angles at all?
+\item Validate swap point inside zmp-daemon
+\item Plot it
+\end{itemize}
+\end{enumerate}
 
-% -------------------------------------------------------------------------------------
-% DAEMONS
-% -------------------------------------------------------------------------------------
-\section{Daemons}
-Silly daemons
-\newpage
+\section*{May 09}
+\subsection*{Status}
+\begin{itemize}
+\item Created walker flowchart and state machine
+\newline \includegraphics[width=\linewidth]{resources/walker-flowchart}
+\end{itemize}
+
+\section*{May  07}
+\subsection*{Status}
+\begin{itemize}
+\item Made preliminary state machine for zmp-daemon and walker for continuous trajectory generation
+\item Created zmpdemo flowchart
+\newline \includegraphics[width=\linewidth]{resources/zmp-daemon-flowchart}
+\item Edited walking-pipeline and added diagram of continuous walking receding horizon
+\newline \includegraphics[width=\linewidth]{resources/zmp-walking-pipeline}
+\end{itemize}
+
+\section*{Apr 29 - May 5}
+\subsection*{Status}
+\begin{itemize}
+\item Generated evaluation times for the zmpdemo code for different types and
+number of footsteps.
+\item Gave final presentation with Xinyan on teleoperation.
+\end{itemize}
+
+\section*{Apr 22-28}
+\subsection*{Status}
+\begin{itemize}
+\item Sungmoon and I then planned out a schedule of small tasks to complete
+achieve receding horizon online ZMP trajectory generation.
+\item Evaluate generation time of trajectories for different types and number of
+footsteps.
+\item Achieve receding horizon using a button on the keyboard to walk in a straight
+line.
+\item Implement receding horizon online ZMP trajectory generation using
+forward/backward and sidestep left/right using the keyboard.
+\item Nishiwaki, Koichi, et al. "Online generation of humanoid walking motion based on
+a fast generation method of motion pattern that follows desired zmp."
+Intelligent Robots and Systems, 2002. IEEE/RSJ International Conference on. Vol.
+3. IEEE, 2002.
+\item The next task after completing this will be to start incorporating the footstep
+planner and different walk types.
+\end{itemize}
+\subsection{Future Milestones}
+\begin{itemize}
+\item Incorporation of footstep planner and different walk types.
+\end{itemize}
+
+\section*{Apr 15-21}
+\subsection*{Status}
+\begin{itemize}
+\item Set the motion computer up to have a static ip address.
+\item Read through the hubomz code and commented some of it. Primarily I commented the
+ZmpPreview.h file, which is the actual zmp controller. The CoM inverse
+kinematics was a little hard to understand, but I understand enough to move
+forward with the finite horizon.
+\item I read through the Nishiwaki (2002) paper which presents online generation of 
+zmp walking trajectories. I modified Sungmoon's ZMP-Walking diagram and added
+the online receding-horizon method.
+\item Created presentation for TePRA with Rowland.
+\end{itemize}
+
+\section*{Apr 8-14}
+\subsection*{Status}
+\begin{itemize}
+\item Juan and I repaired Hubo's right hand pinky and middle fingers. The pinky
+just need the set screw that hold the pulley on the motor shaft tightened. The
+middle finger was the one previously broken and we just re-glued it with krazy
+glue.
+\item I wrote a simple hand program to open and close the fingers using the keyboard.
+In doing so I discovered a bug and investigated the Hubo-ach code with Grey and
+came up with some possible culprits. Grey later fixed it.
+\url{https://github.com/pvieira3/hubo-misc/blob/master/test-code/src/hand.cpp}
+\item Set up everything for National Robotics Week and conducted the teleportation
+with the kids.
+\end{itemize}
+
+\section*{Apr 1-7}
+\subsection*{Status}
+\begin{itemize}
+\item I helped Xinyan daemonize Liberty and cleaned up everything.
+\url{https://github.com/pvieira3/Liberty-Daemon}
+\item I updated the teleop-arms and teleop-legs code to accept arguments and make it
+easier to understand
+\url{https://github.com/pvieira3/hubo-misc/blob/master/test-code/src/teleop-arms.cpp}
+\item I made a separate Collision\_Checker class. Currently, there's only a checker for
+the arms, but a legs one will be added in the future.
+\url{https://github.com/pvieira3/hubo-misc/blob/master/test-code/src/Collision\_Checker.cpp}
+\url{https://github.com/pvieira3/hubo-misc/blob/master/test-code/include/Collision\_Checker.h}
+\item I worked with Juan to get started tested grasping with the fingers. We
+discovered the control daemon had some bugs related to the fingers because they
+were never needed and therefore never tested and debugged. We notified Grey and
+he fixed the bugs.
+\item I thoroughly explained the impedance controller to Xinyan, which helped me
+understand some details I was unaware of.
+\item I updated the Fastrak class to accept the Fastrak or the Liberty tracker and
+renamed it to Teleop.cpp
+\url{https://github.com/pvieira3/hubo-misc/blob/master/test-code/src/Teleop.cpp}
+\url{https://github.com/pvieira3/hubo-misc/blob/master/test-code/include/Teleop.h}
+\item I fixed the compiler issues with Max's testIK.cpp code which he wrote to do a
+unit test on the FK/IK for Hubo.
+\end{itemize}
+
+\section*{Feb 18-24}
+\subsection*{Status}
+\begin{itemize}
+\item Xinyan and I got the Polhemus Liberty tracker fully working and tested. We
+removed Fastrak completely and are now only using Liberty.
+\item I added a simple self-collision avoidance function based on an ellipse-shaped
+boundary. I added it to Hubo\_Control.cpp and ellipse parameters to
+Hubo\_Control.h in my forked repo on the collision-avoidance branch.
+\item I helped Andrew a bit to debug issues with hubo\_state and with moving the hand
+to the location of the red object. He got that working! Videos are on his page.
+\item Helped get Max started on writing a UnitTest for the FK and IK.
+\item The working zmpdemo walking parameters for the video were:
+\begin{itemize}
+\item ./zmpdemo ../myhubo.kinbody.xml -w canned -z 0.06 -y 0.0885 -d 0.01 -s 0.5 -A -c
+\item 8 -p 2 -X 0.038 -h 0.5 -l 0.08
+\item -w: walk type "canned", meaning straight line
+\item -z: foot vertical lift-off height of 0.06m
+\item -y: half distance between feet of 0.0885m
+\item -d: double-support time of 0.01s
+\item -s: single-support time of 0.5s
+\item -c: max number of step = 8
+\item -p: initial time spent with zmp stationary = 2s
+\item -l: max length of footstep = 0.08m
+\item -X: forward distance from ankle to zmp = 0.04m
+\item -A: use ach
+\end{itemize}
+\item Sungmoon and I tried tuning the walking parameters as well as tried adding
+gradually reduced step size steps at the end of the walk. This helped a little
+bit. Raising the COM z-position from 0.48m to 0.50m and changing the zmp
+distance in front of the ankle from 0.04m to 0.038m helped.
+\item Sungmoon and I wrote an impedance controller for the arm, using the torque
+sensors in the wrist.
+\item Code:
+\url{https://github.com/pvieira3/hubo-misc/blob/master/test-code/src/impCtrl-arms.cpp}
+\item Code: \url{https://github.com/pvieira3/hubo-misc/blob/master/test-code/include/impedanceController.h} 
+\end{itemize}
+
+\section*{Mar 11-17}
+\subsection*{Status}
+\begin{itemize}
+\item Rowland and I went through Matt Zucker's walking code and learned how he
+was spoofing input for the z-coordinate (height) of the feet in order to
+construct a zmp trajectory in the y-direction, which was being fed into his ZMP
+Preview controller, which spat out COM trajectory. This was then used with the
+inverse kinematics to obtain full-body joint trajectories.
+\item Rowland and I started adding code to get forward movement of the feet and body.
+\item Rowland and I finished adding forward walking to the code and kinematic
+visualization with Matt's help.
+\item I helped Saul understand and re-factor the zmpdemo.cpp code.
+\item I watched and learned from Matt about how we were going to break the code into
+multiple objects.
+\item I added the details for the runZMPPreview(), runCOMIK() and dumTraj() functions
+in our zmpWalkingGenerator.
+\item I helped out with the actual implementation of the code on Hubo and figuring out
+how to control Hubo's balancing such that walking would be possible.
+\item Code: \url{https://github.com/golems/hubomz}
+\end{itemize}
+
+\section*{Mar 4-10}
+\subsection*{Status}
+\begin{itemize}
+\item Over the weekend Hubo's Right Hip Roll joint "broke" somehow. I took out
+the control board and discovered that ground trace from the power socket to one
+of the MOSFETs was burned out due to over-current. We swapped power, encoder and
+limit switch cables with the Right Hip Yaw and turned on motor control with
+Hubo-i and it worked fine. Therefore, there should be no issues mechanically,
+and just a replacement of the board should fix the problem. The cause of the
+failure is still not clear. We are aware that Hubo was designed with pretty much
+no safety factors, so if somehow he was being commanded to stand, etc. for too
+long without cooling down then an over-current may have occurred naturally. This
+just means we need to be more conscious of Hubo's limits and how we test him.
+\item Pushkar helped me install Dart/Grip again from source with a different install
+method for fcl. This got most of the tabs and worlds working, but not all of
+them. Still can't install from the apt repo for some reason.
+\item Worked on porting our Inverse Kinematics code over to Ivan's WalkingTab.
+\item I helped XinYan test his Polhemus Liberty daemon by using it to send Liberty
+sensor data from XinYan's computer to Hubo using achd and controlling Hubo's
+right arm via the sensor. It worked, but seemed a bit different than when using
+Fastrak. Need to do more testing, and test with the left leg to figure out why
+it's different.
+\end{itemize}
+
+\section*{Feb 25 - Mar 3}
+\subsection*{Status}
+\begin{itemize}
+\item Ana and I added a function to the Hubo\_Tech library that calculates the
+center of mass w.r.t. the neck, which is the world frame for the FK and IK.
+Ana and I starting writing a balance daemon that uses the center of mass model
+and the force/torque sensors in the ankles.
+\item The Ethernet cable connected to PC2 was tripped over and the plastic socket was
+snapped off the circuit board on Hubo. I got a new socket from James Steinberg
+in Van Leer, desoldered the old ethernet socket on the Smart Power board and
+soldered on a new one.
+\item I spent a day working with Ivan to figure out how to control joints easily in
+Dart.
+\item I finally installed Dart/Grip after doing a clean install of Ubuntu 12.04 but
+the worlds still wouldn't load.
+\end{itemize}
+\subsection*{Reflection}
+\begin{itemize}
+\item For walking a clear state machine idea has been formed, but we just need
+to implement it.
+\item For Dart/Grip I will talk to Pushkar, etc. on Monday to resolve the issues.
+\end{itemize}
+
+\section*{Feb 18-24}
+\subsection*{Status}
+\begin{itemize}
+\item Andrew and I tested running a program on PC1 and sending the commands over
+Ach to PC2 and while the daemons were running on PC2, but we are having issues.
+We are doing something wrong with the communication.
+\item I got the Polhemus Liberty working with PiTerm. I then wrote a simpler version
+that got rid of all the GTK GUI stuff. I still need to parse the string of data
+into an array and daemonize it.
+\item XinYan and I tested the leg FK/IK and discovered that the problem was Grey's
+ordering of the leg joints in control-daemon.h was different than that of
+Rowland and me. The Hip Yaw and Hip Pitch were switched, so Grey changed them to
+match our FK/IK.
+\item I also discovered that because we had that miscommunication about the joint
+ordering, the limits for the Hip Yaw and Pitch in our IK solution were swapped!
+\item XinYan and I got Fastrak working with the legs. However, we discovered that the
+leg IK doesn't handle the situation when the goal position is outside the
+workspace properly, and returns -nan as the goal joint angle for the Hip Pitch,
+Knee and Ankle Pitch. We are working on fixing this.
+\item Andrew and I were able to read the state channel from the Vision PC, but not
+write to the Ref channel.
+\item I fixed the Leg IK code. It was returning -nan for joints 3, 4 and 5 (RHP, RKN
+and RAP) when the goal was outside the workspace. I changed the square roots in
+the calculations of the joint angles to be csqrt (complex sqrt) and changed the
+radical to type 'double complex'. The norm between the goal position and the
+solution positions wasn't being calculated with the correct goal position
+because it was changed at the top of the function. The ordering of the limits
+for the leg joints was wrong as well, because the hip pitch and hip yaw values
+were switched.
+\item I wrote a program to control the position and orientation of the feet using two
+Fastrak sensors! It works really well, and has no issues when you move the
+sensors outside the workspace of the feet.
+\item Ana and I integrated her dart\_Lite library into the hubo-motion-rt library and
+verified that it loads the URDF file in successfully.
+\item I helped get XinYan set up with Liberty and he got it working on his own laptop
+with Ubuntu via USB. He will continue to finish the writing of the read function
+and daemon.
+\item I took the neck off Hubo and tightened the loose screws so that if a camera is
+temporarily mounted on the neck, any unnecessary looseness wouldn't be a
+problem.
+\item Hubo 4-Limb Teleoperation: Hubo's four limbs are being controlled using 4
+different motion tracking sensors from the Polhemus Fastrak device. I have a
+sensor taped to each foot and one in each hand. We are using the relative
+translation of the sensors and the absolute orientations relative to the Fastrak
+base station. These transformations are mapped to Hubo's hands and feet using
+the inverse and forward kinematics of the arms and legs. Using an instantaneous
+transformation to, for example, the Fastrak sensor in my left hand, we input
+that transformation, or pose, into the inverse kinematics for Hubo's left arm to
+determine the best joint angles solutions to produce that position and
+orientation of the hand. The inverse kinematics generates eight possible
+solutions, of which only a few could be possible, given joint limits and and
+workspace considerations. If no solution contains six joint angles that are
+within the joint limits, then the solution that gives a position closest to the
+goal position is found by taking the norm of the vector between the goal
+position and the position given a solution of joints that are scaled to comply
+with the limits.
+\item Code for teleop of the arms: \url{https://github.com/pvieira3/hubo-misc/blob/master/test-code/src/fastrak-arms.cpp}
+\item Code for teleop of the legs: \url{https://github.com/pvieira3/hubo-misc/blob/master/test-code/src/fastrak-legs.cpp}
+\end{itemize}
+
+
+\section*{Feb 11-17}
+\subsection*{Status}
+\begin{itemize}
+\item Writing code to test the leg IK and FK. Will use it to first squat, and
+then balance on one leg.
+\end{itemize}
+
+\section*{Feb 04-10}
+\subsection*{Status}
+\begin{itemize}
+\item Read papers on ZMP and Preview Control
+\item Gave a presentation to the class with Eric Huang and Grey about locomotion,
+which included static and dynamic walking, ZMP and Preview Control.
+\item Continued updating the code for standing on one foot.
+\item Fixed a bunch of mistakes in the Hubo Kinematics Tech Report and added to the
+abstract.
+\item Helped Grey run my squatting code to demo for ABC
+\item Worked with Clayton to create a better side-by-side video of Hubo cutting a
+rectangle in cardboard using Adobe Premiere.
+\end{itemize}
+\subsection*{Reflection}
+\begin{itemize}
+\item Need to make sure we export from Adobe Premiere as mp4 format.
+\item Creating both 4:3 and 16:9 aspect ratio videos is useful for presentations and
+watching videos, respectively.
+\end{itemize}
+
+\section*{Jan 28 - Feb 03}
+\subsection*{Status}
+\begin{itemize}
+\item Added comments to the Hubo\_Tech header using Doxygen commenting style.
+\item Started writing program to have Hubo stand on one leg using center of mass for
+the feedback term
+\end{itemize}
+\subsection*{Reflection}
+\begin{itemize}
+\item Need to generalize code more as opposed to hard coding actions.
+\end{itemize}
+
+
+\section*{Jan 21-27}
+\subsection*{Status}
+\begin{itemize}
+\item Rowland, Grey and I successfully cut out a 15x10cm square in
+cardboard using Fastrak motion tracking for the right hand and for squatting.
+\item Rowland and I finished writing the TePRA paper and submitted it.
+\item Rowland and I also fixed the IK and FK code so that the teleoperation in
+workspace works for 3-DOF.
+\item Ana and I tested a simple version of center of mass calculation for the right
+leg. When we moved the leg, the location of the center of mass moved in the
+correct directions, but not with correct magnitudes. 
+\item Hubo Cutting Rectangle in Cardboard: 01/25/2013. This is a video of Hubo cutting
+a 15x10cm rectangle in cardboard, with two different camera angles, a main
+closeup view of the cut, and a second, smaller view in the top-right corner of
+the board, Hubo and the teleoperator in the background. We balanced him using
+his ankle motors, which are velocity controlled using just a proportional term.
+They are compliant with the moments about his ankles, but resistant against the
+angle of his torso with respect to the vertical in order to keep him upright. He
+has a Dremel strapped to his hand with a drill bit insert. We use the inverse
+kinematics of the arm and a Polhemus Fastrak Motion Tracking device to move his
+arm horizontally. By lowering the tracking device, Hubo also lowers by bending
+at the knees. These two degrees of freedom allow Hubo to cut out the rectangle.
+\end{itemize}
+
+\subsection*{Reflection}
+\begin{itemize}
+\item The modeling of the center of mass is going a little slow, because the
+URDF file is hard to interpret and doesn't seem accurate.
+\end{itemize}
+
+
+\section*{Jan 14-20}
+\subsection*{Status}
+\begin{itemize}
+\item I was able to get Hubo to squat on Monday with just a bit of sway. The
+sway is due to the fact that the ankles are not matching the speed of the hips,
+which causes the torso to lean forward or backwards, so when Hubo stops moving
+he has to rotate his ankles to return his torso to the vertical orientation.
+This can be solved possibly by adjust the gains on the ankle pitch velocity.
+\item Grey and I performed cardboard cutting with the Fastrak and the dremel. We
+used the Drill IK that Rowland wrote and just varied the y-position in order to
+create a smooth cut along a straight line. We were able to get Hubo to cut an
+8-inch line in the cardboard, but then the wrist broke loose due to experience a
+torque greater than its maximum allowable.
+\item We also performed teleoperation of the dremel arm while using another sensor to control squating. We achieved this by using the dimensions of Hubo and some simple trigonometry.
+\item I helped Andrew to get a webcam tracking a red piece of paper. Then, as the paper moved across the webcam's view, Hubo would move his arm in the same directions along the y-z plane. Andrew got this working using OpenCV and Boost for the vision and object tracking, and sockets in order to send the relative motions to Hubo's Linux computer. We need to adjust some of the transformations since Hubo's arm was not responding exactly as we expected.
+\item I wrote a program to control both of Hubo's arms with the Fastrak sensors, as well as his waist with a third sensor. It is slightly different than the original one that Grey wrote, which didn't perform as hoped, possible due to the IK solutions and possibly due to there only being six DOF controlling six DOF, coupled with Hubo's limited worskpace. I will test my version on Monday, January 21st.
+\item Hubo Squatting: 01/18/2013. This is a video of Hubo balancing and squatting. His ankles are velocity controlled using just a proportional term. They are compliant with the moments about his ankles, but resistant against the angle of his torso with respect to the vertical in order to stay upright. He squats by adjusting the velocity of his knee joints and then setting the hip and ankle joints to half the knee velocity.
+\item Hubo Balancing \& Teleop (LEFT): 01/18/2013. This is a video of Hubo being controlled via teleoperation to balancing, squat and move his right arm. He balances using his ankles, which are velocity controlled using just a proportional term. They are compliant with the moments about his ankles, but resistant against the angle of his torso with respect to the vertical in order to stay upright. We use the inverse kinematics of the arm and move it horizontally using a Polhemus Fastrak Motion Tracking device. He squats by adjusting the velocity of his knee joints and then setting the hip and ankle joints to half the knee velocity.
+\item Hubo Wall Cut (RIGHT): 01/18/2013. This is a video of Hubo cutting a line in cardboard. He balances using his ankles, which are velocity controlled using just a proportional term. They are compliant with the moments about his ankles, but resistant against the angle of his torso with respect to the vertical in order to stay upright. He has a dremel with a drill bit strapped to his hand. We use the inverse kinematics of the arm and move it horizontally using a Polhemus Fastrak Motion Tracking device.
+\end{itemize}
+
+\subsection*{Reflection}
+\begin{itemize}
+\item The balancing and squating work fine, but for anything more, we need the calculation of the center of mass. This way we won't have to rely on the IMU and we can just give a point of the floor for where to put Hubo's center of mass. This should make it possible to walk in a logical manner.
+\item The webcam object tracking control of Hubo's arm exhibited some good response, but I definitely mixed up the IK for the drill and the hand and thus the transformations are wrong. This is an easy fix though.
+\end{itemize}
+
+\subsection*{Milestones}
+\begin{itemize}
+\item Get data for the wall cutting. We will get Fastrak data and Forward Kinematics data, and plot the two against each other.
+\item Pick an object up with two hands using Fastrak.
+\item Get the calculation of the center of mass and verify that it's correct
+\end{itemize}
+
+\section*{Jan 07-13}
+\subsection*{Status}
+\begin{itemize}
+\item Finished writing the rough draft of the TePRA 2013 paper \href{https://thebrain.golems.org/svn/papers/2013/TePRA-13-hubo\_teleopTasks/}
+{"Humanoid Robot Teleoperation for Dual-Arm Tasks with Power Tools"} with Rowland
+O'Flaherty. This paper presents the implementation of inverse kinematics to
+achieve teleoperation of a physical Hubo+ robot platform. Using a closed-form
+kinematic solution and a basic feedback controller, teleoperation of simple
+tasks is realized. The Hubo+ platform will be used to compete in the DARPA Robot
+Challenge, which requires autonomous execution of various tasks; such as,
+cutting through walls and moving rumble. Joint limits and singularities are
+accounted for using the different cases in the kinematic solution; and a
+decision method is implemented to determine how to position the end-effector
+when the goal is outside the feasible workspace.
+\item Achieved balancing with Grey. We did this by using velocity control
+for the pitch and roll joints of the left and right ankles. We designed the
+controller so that the ankles are compliant with the moments about the ankle
+joints, but resistant against the waist IMU angle. These are both proportional
+terms. We originally tried using position control with P, PD and PID type
+controllers but found that oscillation would occur. The following is the code we
+used.
+\end{itemize}
+
+\subsection*{Reflection}
+\begin{itemize}
+\item We had some trouble getting Hubo to bend at the knees and hips in
+order to lower, but Grey had an idea to set the ankle velocity equal to the hip
+velocity.
+\end{itemize}
+
+\subsection*{Milestones}
+\begin{itemize}
+\item Get Hubo to act like a spring, where if you press down on his
+shoulders he'll lower, keeping his back vertical, and if you let off he'll rise
+back up.
+\item Cut through cardboard with the dremel by using the IK for the arm and
+bending his legs in order to increase range of drilling motion.
+\item Update the TePRA paper with results from dremel experimentation and
+hopefully moving "rubble."
+\end{itemize}
+
 % -------------------------------------------------------------------------------------
 % REFERENCES
 % -------------------------------------------------------------------------------------
