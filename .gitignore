@@ -22,9 +22,11 @@
 *.nav
 *.nlo
 *.out
+*.pdf
 *.pdfsync
 *.ps
 *.snm
+.svn/
 *.synctex.gz
 *.toc
 *.vrb
