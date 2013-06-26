@@ -47,6 +47,18 @@
 %\item 
 %\end{itemize}
 
+\section*{June 25}
+\subsection*{Status}
+\begin{itemize}
+\item Port our zmp-daemon code over to Matt's new hubomz repo which now works with the new DRC Hubo. Got everything working (ie. forward/backward, sidestepping and turning in place) except that there is something weird going on in the first step of the turn in place.
+\item Currently the repo is forked to my user account "pvieira3".
+\end{itemize}
+\subsection*{Issues}
+\begin{itemize}
+\item Need to think about best and most logical way to use ZMPParams and where to put them. Currently I have put the ik\_sense and the walktype in zmp-daemon and zmpwalkgenerator includes zmp-daemon. This led to changing some lines in zmpdemo as well.
+\item Need to fix turning in place.
+\end{itemize}
+
 \section*{June 22}
 \subsection*{Status}
 \begin{itemize}
