@@ -41,16 +41,30 @@
 % JOURNAL ENTRIES
 % -------------------------------------------------------------------------------------
 
-%\section*{June 24}
+%\section*{July 02}
 %\subsection*{Status}
 %\begin{itemize}
 %\item 
 %\end{itemize}
 
+\section*{July 01}
+\subsection*{Status}
+\begin{itemize}
+\item Worked with Matt and found bug in hubomz code in zmpwalkgenerator.cpp where the if else statements for pause\_time were switch, so it was interpolating the body rotation over the wrong number of iterations.
+\item Tested quasistatic walking on DRC Hubo 1, but when he leaned over the left foot, he ended up falling to the left side. My deduction is that the model is not correct (ie. the center of mass is too low) which caused Hubo to lean to far and thus put his ACTUAL center of mass outside his support foot.
+\item Parameters were: X-offset: 0.04, Startup time: 1.0, Shutdown time: 1.0, Double-support time: 0.9, Single-support time: 1.0, Pause time: 0.3, Step height: 0.1, Step distance: 0.22, Lateral distance: 0.0885, Center of mass height: 0.45.
+\item I added a function to the Walker class in hubo-motion-rt called balanceAboveFoot that will hopefully help account for the inaccuracies in the model and allow for quasistatic working to work.
+\end{itemize}
+\subsection*{Issues}
+\begin{itemize}
+\item We discovered that the Force/Torque sensors in the ankles were reversed on all the signs when using Hubo-i, but when using hubo\_init, just the right ankle was incorrect.
+\item Kiwon Sohn contacted KAIST and they said they purposely set the F/T sensors backwards and since defaulting to the stock firmware will revert them to being backwards, we should just change it in our code. This is not logical at all, but not much we can do about it now.
+\end{itemize}
+
 \section*{June 25}
 \subsection*{Status}
 \begin{itemize}
-\item Port our zmp-daemon code over to Matt's new hubomz repo which now works with the new DRC Hubo. Got everything working (ie. forward/backward, sidestepping and turning in place) except that there is something weird going on in the first step of the turn in place.
+\item Ported our zmp-daemon code over to Matt's new hubomz repo which now works with the new DRC Hubo. Got everything working (ie. forward/backward, sidestepping and turning in place) except that there is something weird going on in the first step of the turn in place.
 \item Currently the repo is forked to my user account "pvieira3".
 \end{itemize}
 \subsection*{Issues}
