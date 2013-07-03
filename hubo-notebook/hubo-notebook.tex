@@ -41,6 +41,43 @@
 % JOURNAL ENTRIES
 % -------------------------------------------------------------------------------------
 
+\section*{July 03}
+\subsection*{Status}
+\begin{itemize}
+\item Plan for walking:
+\begin{enumerate}
+\item Try quasistatic walking with 0 step height, with the battery in.
+\item Try quasistatic walking with flattening of the feet.
+\item Try dynamic walking with flattening of the feet.
+\item Try running the zmp-daemon realtime using the force/torque sensor and maybe the accelerometer in the pelvis to determine the real ZMP and use that in the Preview Controller every timestep.
+\end{enumerate}
+\item 1. Worked very well without the battery.
+\item 2. Quasistatic walking in place worked well, except that the miscalibration in the left ankle roll caused the robot to fall to the right during single-support, which then caused the dropping leg to hit the ground and push the robot over. But the right side was perfect.
+\begin{itemize}
+\item x-offset = 0.4m
+\item y-offset = 0.0m
+\item zmp-R = 1.00 x 10\^-8
+\item lookahead time = 2.5s
+\item startup = 1.0s
+\item shutdown = 1.8s
+\item double-support = 2.5s
+\item single-support = 1.0s
+\item pause time = 0.3s
+\item step height = 0.06m
+\item step distance = 0.0m
+\item half stance width = 0.0885m
+\item COM height = 0.45m
+\item flattening gains = 0.001
+\item decay gain = 0.5
+\item min force threshold = 12.0N
+\item max force threshold = 55.0N
+\end{itemize} 
+\end{itemize}
+\subsection*{Issues}
+\begin{itemize}
+\item The left PC has login issues. To solve it, press Ctrl-Alt-F1 to go to the Terminal. Then type sudo chown groupname:username .Xauthority. Then press Ctl-Alt-F7 to go back to the login and try logging in.
+\end{itemize}
+
 \section*{July 02}
 \subsection*{Status}
 \begin{itemize}
