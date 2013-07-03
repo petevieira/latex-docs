@@ -41,11 +41,18 @@
 % JOURNAL ENTRIES
 % -------------------------------------------------------------------------------------
 
-%\section*{July 02}
-%\subsection*{Status}
-%\begin{itemize}
-%\item 
-%\end{itemize}
+\section*{July 02}
+\subsection*{Status}
+\begin{itemize}
+\item Found a weird bug in zmpwalkgenerator.cpp, line 416 in github.com/swatbotics/hubomz/zmp/. If the center of mass IK fails then it gets the body transforms using the walker's local initContext, but it has not been set yet, so jvalues.size() = 0 and therefore the assert in KinBody::transforms() fails.
+\item Tested quasistatic walking with 1.5 double-support time. When it first moved to the left foot it did well, but when it shifted to the right, it went way too fast and overshot and fell over. We presume this may be because the double-support time is too short, but just increasing this doesn't seem like a good idea.
+\item Figured out that the footstep generation functions don't know anything about the zmp position so the final step ends with the body shifted to the side with the zmp\_y at it's max. So stayDogStay() using the shutdown\_ticks is necessary to bring the zmp\_y back to zero.
+\item Tried much longer double-support time with quasistatic walking in place. The first shift to the left foot was perfect, but when Hubo put his right foot back down he fell off balance and then fell to the right as he shifted right. Will implement a feedback controller tomorrow.
+\end{itemize}
+\subsection*{Issues}
+\begin{itemize}
+\item In quasistatic mode the single and double support times need to be very long, which creates a very large trajectory, which currently overflows the ach channel. So we can either increase the ach channel size (temporary plan), or move onto atomic trajectories.
+\end{itemize}
 
 \section*{July 01}
 \subsection*{Status}
