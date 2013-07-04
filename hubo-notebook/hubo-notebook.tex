@@ -14,6 +14,8 @@
     linkcolor=black,
     urlcolor=blue
 }
+% For mathematics
+\usepackage{mathtools}
 
 % -------------------------------------------------------------------------------------
 % TITLE PAGE
@@ -51,8 +53,8 @@
 \item Try dynamic walking with flattening of the feet.
 \item Try running the zmp-daemon realtime using the force/torque sensor and maybe the accelerometer in the pelvis to determine the real ZMP and use that in the Preview Controller every timestep.
 \end{enumerate}
-\item 1. Worked very well without the battery.
-\item 2. Quasistatic walking in place worked well, except that the miscalibration in the left ankle roll caused the robot to fall to the right during single-support, which then caused the dropping leg to hit the ground and push the robot over. But the right side was perfect.
+\item 1. Quasistatic shifting back/forth worked very well without the battery.
+\item 2. Quasistatic walking in place worked well, except that the miscalibration in the left ankle roll caused the robot to fall to the right during single-support, which then caused the dropping leg to hit the ground and push the robot over. But the right side was perfect. Another possible explanation that Grey mentioned was that the new adapter piece between the right F/T sensor and the ankle is a bit thicker (or the calibration of the legs are such that the body is leaning to the left) causing Hubo to lean to the left, which then causing him to fall right when he lifts his right leg.
 \begin{itemize}
 \item x-offset = 0.4m
 \item y-offset = 0.0m
@@ -72,6 +74,40 @@
 \item min force threshold = 12.0N
 \item max force threshold = 55.0N
 \end{itemize} 
+\item 3. Dynamic walking didn't work well with the various parameters Matt and I tried. Hubo's joint shifting and body leaning became out of phase by a step each time (ie. when his legs were such that they would make him shift left, he was leaning right on the right edge of his feet.).
+\item Matt and I discussed the implementation of torque feedback to nudge the hips in the opposite direction of the falling and I will be ready to test it on Friday morning.
+
+\begin{equation}
+\begin{bmatrix}
+f_x \\ 
+f_y
+\end{bmatrix}
+= \begin{bmatrix}
+0 && 1 \\
+-1 && 0
+\end{bmatrix}
+\begin{bmatrix}
+\tau_x \\
+\tau_y
+\end{bmatrix}
+\end{equation}
+
+\begin{equation}
+\begin{bmatrix}
+b_x \\
+b_y
+\end{bmatrix}
+=
+\begin{bmatrix}
+\cos(\theta_{HY}) && -\sin(\theta_{HY}) \\
+\sin(\theta_{HY}) && \cos(\theta_{HY})
+\end{bmatrix}
+\begin{bmatrix}
+f_x \\
+f_y
+\end{bmatrix}
+\end{equation}
+where $\tau_x$ and $\tau_y$ are the measured torques minus the expected torques for the x and y axes. $f_x$ and $f_y$ are the x- and y- position errors of the feet given the torque feedback error. $b_x$ and $b_y$ are the body x- and y- position errors with the hip yaws taken into account. This then gets premultiplied by the TFs from the body to the feet to get the new feet positions, on which we run the IK to get the new leg joint angles that will nudge our hips to counter any falling motion.
 \end{itemize}
 \subsection*{Issues}
 \begin{itemize}
