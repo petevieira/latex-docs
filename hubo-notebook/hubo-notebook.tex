@@ -43,6 +43,16 @@
 % JOURNAL ENTRIES
 % -------------------------------------------------------------------------------------
 
+\section*{July 04}
+\subsection*{Status}
+\begin{itemize}
+\item Added installation to the CMakeLists.txt in hubo-motion-rt, and also added an uninstall cmake file so you can now type 'sudo make uninstall' in the build directory.
+\item Found old, uncorrected bug in control.table in hubo-motion-rt. The hip yaw and hip pitch for both legs were swapped, which affect how they get ordered in the leg joints arrays.
+\item Updated Walker.cpp and tested it on Hubo without actually changing the trajectory, but somehow it caused some jittery behavior. I will investigate this tomorrow.
+\item Added single and double support hip nudge gains to the hubo\_walk panel in rviz, and added the gains to the balance-daemon accordingly.
+\item Updated leg lengths constants and limits in HuboKin.cpp and the control.table in hubo-motion-rt. 
+\end{itemize}
+
 \section*{July 03}
 \subsection*{Status}
 \begin{itemize}
@@ -97,7 +107,7 @@ f_y
 b_x \\
 b_y
 \end{bmatrix}
-=
++=
 \begin{bmatrix}
 \cos(\theta_{HY}) && -\sin(\theta_{HY}) \\
 \sin(\theta_{HY}) && \cos(\theta_{HY})
@@ -108,6 +118,7 @@ f_y
 \end{bmatrix}
 \end{equation}
 where $\tau_x$ and $\tau_y$ are the measured torques minus the expected torques for the x and y axes. $f_x$ and $f_y$ are the x- and y- position errors of the feet given the torque feedback error. $b_x$ and $b_y$ are the body x- and y- position errors with the hip yaws taken into account. This then gets premultiplied by the TFs from the body to the feet to get the new feet positions, on which we run the IK to get the new leg joint angles that will nudge our hips to counter any falling motion.
+If we integrate the body error, than we can save the accumulated error in the legs joint with two numbers and apply IK to.
 \end{itemize}
 \subsection*{Issues}
 \begin{itemize}
