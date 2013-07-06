@@ -43,14 +43,26 @@
 % JOURNAL ENTRIES
 % -------------------------------------------------------------------------------------
 
-\section*{July 04}
+\section*{July 05}
 \subsection*{Status}
 \begin{itemize}
 \item Added installation to the CMakeLists.txt in hubo-motion-rt, and also added an uninstall cmake file so you can now type 'sudo make uninstall' in the build directory.
 \item Found old, uncorrected bug in control.table in hubo-motion-rt. The hip yaw and hip pitch for both legs were swapped, which affect how they get ordered in the leg joints arrays.
-\item Updated Walker.cpp and tested it on Hubo without actually changing the trajectory, but somehow it caused some jittery behavior. I will investigate this tomorrow.
+\item Updated Walker.cpp to adjust both legs in both single and double support, and tested it on Hubo without actually changing the trajectory, but somehow it caused some jittery behavior. I will investigate this tomorrow.
 \item Added single and double support hip nudge gains to the hubo\_walk panel in rviz, and added the gains to the balance-daemon accordingly.
 \item Updated leg lengths constants and limits in HuboKin.cpp and the control.table in hubo-motion-rt. 
+\end{itemize}
+\subsection*{Issues}
+\begin{itemize}
+\item Jittery behavior from nudgeHips() function in Walker.cpp.
+\item zmpdemo.cpp has TopicUnaligned... eigen error in the gui demo section.
+\item hubo\_init get ACH\_OVERFLOW from the hubo-state channel at times. Maybe a race condition since it uses threads.
+\end{itemize}
+
+\section*{July 04}
+\subsection*{Status}
+\begin{itemize}
+\item Added nudgeHips() function to Walker.cpp.
 \end{itemize}
 
 \section*{July 03}
