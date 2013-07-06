@@ -16,6 +16,7 @@
 }
 % For mathematics
 \usepackage{mathtools}
+\usepackage[margin=1.0in]{geometry}
 
 % -------------------------------------------------------------------------------------
 % TITLE PAGE
@@ -42,6 +43,22 @@
 % -------------------------------------------------------------------------------------
 % JOURNAL ENTRIES
 % -------------------------------------------------------------------------------------
+
+\section*{July 06}
+\subsection*{Status}
+\begin{itemize}
+\item Determined that the jittery behavior when walking was due to using std::cerr instead of std::cout. This is because cerr is unbuffered and sends everything to the terminal immediately, causing a slowdown in the trajectory, where as std::cout buffers it and then sends a batch to the terminal. With std::cout it was much better, but possibly still affecting it a bit.
+\item Tested quasistatic walking in place using the nudgeHips function (see June 03). Even after calibrating the feet some, it still had the same problem. Maybe more calibration is necessary. I believe that for such feedback control to work properly, the feet need to be flatten before walking, and then the offset used throughout the walking trajectory, otherwise there's no way to ensure the legs and ankles are perfectly calibrated and it won't happen again.
+\end{itemize}
+\subsection*{Ideas}
+\begin{enumerate}
+\item Always balance before walking and use ankle offsets in walking trajectory.
+\begin{itemize}
+\item Doing this as is would mean when walking started, Hubo would "jolt" a bit forward to get to the initial ZMP\_x offset, which is currently 0.04m. 
+\item Or using the COM height and the ZMP\_x offset to compute the new desired IMU angle about the y (pitch) axis.
+\end{itemize}
+\item Use accelerometers in the feet to flatten the feet without affecting the body position.
+\end{enumerate}
 
 \section*{July 05}
 \subsection*{Status}
@@ -92,6 +109,7 @@
 \item half stance width = 0.0885m
 \item COM height = 0.45m
 \item flattening gains = 0.001
+
 \item decay gain = 0.5
 \item min force threshold = 12.0N
 \item max force threshold = 55.0N
@@ -102,33 +120,53 @@
 \begin{equation}
 \begin{bmatrix}
 f_x \\ 
-f_y
+f_y \\
+f_z = 0
 \end{bmatrix}
-= \begin{bmatrix}
-0 && 1 \\
--1 && 0
+=
+\begin{bmatrix}
+dt*K_p && 0 && 0 \\
+0 && dt*K_p && 0 \\
+0 && 0 && 0
 \end{bmatrix}
 \begin{bmatrix}
-\tau_x \\
-\tau_y
+0 && 1 && 0 \\
+-1 && 0 && 0 \\
+0 && 0 && 0
+\end{bmatrix}
+\begin{bmatrix}
+\tau_{x_{measured}} - \tau_{x_{expected}} \\
+\tau_{y_{measured}} - \tau_{x_{expected}} \\
+\tau_z = 0
 \end{bmatrix}
 \end{equation}
 
 \begin{equation}
 \begin{bmatrix}
 b_x \\
-b_y
+b_y \\
+b_z = 0
 \end{bmatrix}
 +=
 \begin{bmatrix}
-\cos(\theta_{HY}) && -\sin(\theta_{HY}) \\
-\sin(\theta_{HY}) && \cos(\theta_{HY})
+\cos(\theta_{HY}) && -\sin(\theta_{HY}) && 0 \\
+\sin(\theta_{HY}) && \cos(\theta_{HY}) && 0 \\
+0 && 0 && 1
 \end{bmatrix}
 \begin{bmatrix}
 f_x \\
-f_y
+f_y \\
+f_z = 0
 \end{bmatrix}
 \end{equation}
+
+\begin{equation}
+FootTF[LEFT] = legFK(qPrev[LEFT])
+\end{equation}
+\begin{equation}
+FootTF[RIGHTT] = legFK(qPrev[RIGHTT])
+\end{equation}
+
 where $\tau_x$ and $\tau_y$ are the measured torques minus the expected torques for the x and y axes. $f_x$ and $f_y$ are the x- and y- position errors of the feet given the torque feedback error. $b_x$ and $b_y$ are the body x- and y- position errors with the hip yaws taken into account. This then gets premultiplied by the TFs from the body to the feet to get the new feet positions, on which we run the IK to get the new leg joint angles that will nudge our hips to counter any falling motion.
 If we integrate the body error, than we can save the accumulated error in the legs joint with two numbers and apply IK to.
 \end{itemize}
