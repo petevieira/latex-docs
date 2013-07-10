@@ -45,20 +45,25 @@
 % -------------------------------------------------------------------------------------
 
 \section*{July 09}
+\subsection*{Progress}
+\begin{itemize}
+\item Cleaned up nudgeHips() walking controller with Grey and Matt. Need to debug IK issues because the feet compensated way farther than they should have when we ran it in the air.
+\item Tomorrow's plan is to finish debugging the NAN's in the control daemon, debug the IK, and test hip nudging with slowing walking speeds.
+\end{itemize}
 \subsection*{Status}
 \begin{itemize}
 \item Changed zmp-daemon and zmpgui to use pointers on the heap instead of primitives on the stack because the stack was being overflowed after increasing zmp traj ach channel size and zmp max traj size to accomodate slower walking gates.
 \item Matt, Grey and I debugged some issues in the Walker's nudgeHips() controller, but got detoured due to CAN wire issues.
 \begin{itemize}
-\item When we homed once it worked. Homing the second time, the upper body didn't respond. The RWR motor control board was getting pulled out or something during the first home, which cause the upper body to fail the second time around.
-\item We tried after temporarily fixing the above issue and the legs stopped responding during the phase of getting into the initial position of the trajectory. Discovered that the control daemon was computing NANs somehow.
+\item When we homed once it worked. Homing the second time, the upper body didn't respond. The RWR motor control board CAN wire was getting pulled out or something during the first home, which caused the upper body to fail the second time around. This was repaired at the end of the day.
+\item We tried after temporarily fixing the above issue and the legs stopped responding during the phase of getting into the initial position of the trajectory. Discovered that the control daemon was computing NANs somehow. Grey and I discovered some weird things going on using printfs but still haven't found the exact cause yet.
 \end{itemize}
 \end{itemize}
 
 \section*{July 08}
 \subsection*{Status}
 \begin{itemize}
-\item Figured out that the reason hubo\_walk was not working and during make, errors involving boost/operators.hpp and ros/console-brdige/console.h and LogLevel. The reason was because I moved 'include "Hubo\_Control.h"' from balance-daemon.cpp to balance-daemon.h, which include hubo.h which include syslog.h which has pound defines that conflict with ros.
+\item Figured out that the reason hubo\_walk was not working and during make, errors involving boost/operators.hpp and ros/console-brdige/console.h and LogLevel. The reason was because I moved 'include "Hubo\_Control.h"' from balance-daemon.cpp to balance-daemon.h, which include hubo.h which include syslog.h which has pound defines that conflict with ros. This is because hubo\_walk includes balance-daemon.h.
 \end{itemize}
 
 \section*{July 07}
