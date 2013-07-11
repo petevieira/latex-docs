@@ -6,16 +6,16 @@ VIEWING
 =======
 Run the following two commands to compile and view the journal.
 
-    `pdflatex hubo-notebook.tex`
+`pdflatex hubo-notebook.tex`
 
-    `evince hubo-notebook.pdf`
+`evince hubo-notebook.pdf`
 
 INSTALLING LATEX DEPENDENCIES
 =============================
 For quick install but no guarantee, install texlive, texlive-base and texlive-common.
 
-    `sudo apt-get install <package>`
+`sudo apt-get install <package>`
 
 For full install, install texlive-full
 
-    `sudo apt-get install texlive-full`
+`sudo apt-get install texlive-full`
