@@ -51,6 +51,7 @@
 \begin{enumerate}
 \item We were modifying the trajectory elements that we eventual recycle. We changed this so that we are making a copy before modifying and setting the joint angles.
 \item We had the setJointVelocity() function after the passJointAngle(), so passJointAngle() was sending the joint angle passed the control daemon and into hubo-daemon, but setJointVelocity() was changing the control mode to velocity mode, and thus we were just running in velocity mode with a constant error, causing the feet to shoot back endlessly.
+\item The NANs turned out to be from hubo\_walk because the balCmd struct was not being memset, and the balance-daemon supposedly static balances while waiting for a walk trajectory, and when it received the cmd.height from the balCmd channel, it was NAN and used to calculate the leg joint velocities, and therefore sending the control-daemon NANs. This fixed.
 \end{enumerate}
 \item Tested nudging of the hips while standing still and it worked perfectly. Ready to test quasistatic walking.
 \end{itemize}
