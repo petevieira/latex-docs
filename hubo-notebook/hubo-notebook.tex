@@ -43,6 +43,18 @@
 % -------------------------------------------------------------------------------------
 % JOURNAL ENTRIES
 % -------------------------------------------------------------------------------------
+
+\section*{July 11}
+\subsection*{Status}
+\begin{itemize}
+\item Matt, Grey and I found some bugs in the Walker.
+\begin{enumerate}
+\item We were modifying the trajectory elements that we eventual recycle. We changed this so that we are making a copy before modifying and setting the joint angles.
+\item We had the setJointVelocity() function after the passJointAngle(), so passJointAngle() was sending the joint angle passed the control daemon and into hubo-daemon, but setJointVelocity() was changing the control mode to velocity mode, and thus we were just running in velocity mode with a constant error, causing the feet to shoot back endlessly.
+\end{enumerate}
+\item Tested nudging of the hips while standing still and it worked perfectly. Ready to test quasistatic walking.
+\end{itemize}
+
 \section*{July 10}
 \subsection*{Status}
 \begin{itemize}
@@ -167,7 +179,7 @@
 \begin{bmatrix}
 f_x \\ 
 f_y \\
-f_z = 0
+f_z
 \end{bmatrix}
 =
 \begin{bmatrix}
@@ -181,17 +193,17 @@ dt*K_p && 0 && 0 \\
 0 && 0 && 0
 \end{bmatrix}
 \begin{bmatrix}
-\tau_{x_{measured}} - \tau_{x_{expected}} \\
-\tau_{y_{measured}} - \tau_{x_{expected}} \\
+\tau_{x_{desired}} - \tau_{x_{measured}} \\
+\tau_{y_{desired}} - \tau_{y_{measured}} \\
 \tau_z = 0
 \end{bmatrix}
 \end{equation}
 
 \begin{equation}
 \begin{bmatrix}
-b_x \\
-b_y \\
-b_z = 0
+iF_x \\
+iF_y \\
+iF_z
 \end{bmatrix}
 +=
 \begin{bmatrix}
@@ -210,10 +222,10 @@ f_z = 0
 FootTF[LEFT] = legFK(qPrev[LEFT])
 \end{equation}
 \begin{equation}
-FootTF[RIGHTT] = legFK(qPrev[RIGHTT])
+FootTF[RIGHT] = legFK(qPrev[RIGHTT])
 \end{equation}
 
-where $\tau_x$ and $\tau_y$ are the measured torques minus the expected torques for the x and y axes. $f_x$ and $f_y$ are the x- and y- position errors of the feet given the torque feedback error. $b_x$ and $b_y$ are the body x- and y- position errors with the hip yaws taken into account. This then gets premultiplied by the TFs from the body to the feet to get the new feet positions, on which we run the IK to get the new leg joint angles that will nudge our hips to counter any falling motion.
+where $\tau_x$ and $\tau_y$ are the measured torques minus the expected torques for the x and y axes. $f_x$ and $f_y$ are the instantaneous (every 0.005s) x- and y- position offsets of the feet given the torque feedback error. $iF_x$ and $iF_y$ are the integrated x- and y- position offsets of the feet with the hip yaws taken into account. This then gets premultiplied by the TFs from the body to the feet to get the new feet positions, on which we run the IK to get the new leg joint angles that will nudge our hips to counter any falling motion.
 If we integrate the body error, than we can save the accumulated error in the legs joint with two numbers and apply IK to.
 \end{itemize}
 \subsection*{Issues}
