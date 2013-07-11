@@ -43,6 +43,23 @@
 % -------------------------------------------------------------------------------------
 % JOURNAL ENTRIES
 % -------------------------------------------------------------------------------------
+\section*{July 10}
+\subsection*{Status}
+\begin{itemize}
+\item I spent much of the day helping people learn how to use the robot, helping them run their trajectories and supervised them, as well as debugging some people's code. Fortunately, one of these was Ben from WPI, who is now already using the hubo\_init panel. It's good that they are testing because I don't think they've ever run anything on the robot and they are seeing how different it is from simulation.
+\item Discovered a bug in Hubo\_Control with the convenience functions for getting the torque readings for the ankles while testing the nudgeHips function. The 'return' keyword was missing, which Grey caught.
+\item I was unable to reproduce the NANs seen yesterday on either the half-Hubo or beta-1 Hubo. I started testing the nudgeHips() controller but then ran into the sensor readings problem above.
+\item I tested the joint-manip-test on the half-Hubo because Andrew was having issues with the right arm responding and we discovered that the interrupt flag need to be set to true. I also wrote a version of the program that brings the arms back to zero position for convenience.
+\item I saved a version of the drc-hubo-joint table for the half-Hubo that only has the existing and working joints set to active. For the time being this can just be vim diffed with the one installed to /etc/hubo-ach/drc-hubo-beta.joint.table.
+\item Discovered that the F/T sensors in the wrists were not reporting any values in hubo\_init or my sensors program. I will verify this on beta-1 and beta-2 (which has the F/T sensors working in the Rainbow code).
+\end{itemize}
+\subsection*{Tasks For Thursday \& Friday}
+\begin{enumerate}
+\item Finish testing/verifying the nudgeHips() walking controller, determine appropriate gains and test it during quasistatic walking with a slower single support phase.
+\item Verify whether or not the F/T sensors are being read by hubo-ach correctly on beta-1 and beta-2 Hubo.
+\item Finish making CMAKE work with hubo-motion-rt.
+\item Write an outline of what needs to change in hubomz to implement quadriped walking.
+\end{enumerate}
 
 \section*{July 09}
 \subsection*{Progress}
