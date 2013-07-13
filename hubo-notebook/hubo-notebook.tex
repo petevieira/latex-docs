@@ -44,6 +44,19 @@
 % JOURNAL ENTRIES
 % -------------------------------------------------------------------------------------
 
+\section*{July 12}
+\subsection*{Status}
+\begin{itemize}
+\item Added derivative term to the hip nudging controller and tested it. Grey and I tried tuning the gains some and nothing dampened the oscillations, and at one point we brought the D-term higher than the P-term which resulted in rapid instability.
+\item Finished 7/10 tasks \#1, 2, and 4.
+\end{itemize}
+\subsection*{Tasks}
+\begin{enumerate}
+\item Make a swing foot trajectory function that has deceleration parameterized.
+\item Write controller that adjusts the hip height based on swing foot landing force to account for early landing or overshooting the stance foot.
+\item Weight the robot with and without the battery.
+\end{enumerate}
+
 \section*{July 11}
 \subsection*{Status}
 \begin{itemize}
@@ -53,7 +66,10 @@
 \item We had the setJointVelocity() function after the passJointAngle(), so passJointAngle() was sending the joint angle passed the control daemon and into hubo-daemon, but setJointVelocity() was changing the control mode to velocity mode, and thus we were just running in velocity mode with a constant error, causing the feet to shoot back endlessly.
 \item The NANs turned out to be from hubo\_walk because the balCmd struct was not being memset, and the balance-daemon supposedly static balances while waiting for a walk trajectory, and when it received the cmd.height from the balCmd channel, it was NAN and used to calculate the leg joint velocities, and therefore sending the control-daemon NANs. This fixed.
 \end{enumerate}
-\item Tested nudging of the hips while standing still and it worked perfectly. Ready to test quasistatic walking.
+\item Tested nudging of the hips while standing still and it worked well, but changing the gain a bit caused some oscillation due to only using a proportional gain at the moment.
+\item Tested nudging while walking in place, but it seemed to be worse than the other day. Definitely need to implement landing control now.
+\newline \includegraphics[width=5.0cm]{resources/walking-in-place-fail}
+\item Tested balancing on one leg using nudging control, but it also had oscillation. We need damping in the legs using possibly impedance control.
 \end{itemize}
 
 \section*{July 10}
@@ -68,10 +84,10 @@
 \end{itemize}
 \subsection*{Tasks For Thursday \& Friday}
 \begin{enumerate}
-\item Finish testing/verifying the nudgeHips() walking controller, determine appropriate gains and test it during quasistatic walking with a slower single support phase.
-\item Verify whether or not the F/T sensors are being read by hubo-ach correctly on beta-1 and beta-2 Hubo.
+\item \textbf{(Done)} Finish testing/verifying the nudgeHips() walking controller, determine appropriate gains and test it during quasistatic walking with a slower single support phase.
+\item \textbf{(Done)} Verify whether or not the F/T sensors are being read by hubo-ach correctly on beta-1 and beta-2 Hubo. \textbf{They are.}
 \item Finish making CMAKE work with hubo-motion-rt.
-\item Write an outline of what needs to change in hubomz to implement quadriped walking.
+\item Write an outline of what needs to change in hubomz to implement quadriped walking. \textbf{Matt will do it.}
 \end{enumerate}
 
 \section*{July 09}
