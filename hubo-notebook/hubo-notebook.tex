@@ -44,11 +44,27 @@
 % JOURNAL ENTRIES
 % -------------------------------------------------------------------------------------
 
+\section*{July 15}
+\subsection*{Status}
+\begin{itemize}
+\item Wrote a workspace impedance controller for the legs, which accounts for $\tau_x$, $\tau_y$ and $F_z$. Will verify and debug (if necessary) tomorrow before testing.
+\item Matt showed me what he changed in zmpdemo to create the quadruped version, quaddemo. I also learned how to run it and generate text file trajectories in order to test on Hubo using Dan's hubo-read-trajectory. I plan to test it tomorrow since Matt will not be in the lab.
+\item Helped Rob load his new home parameters on drc-hubo-beta-2.
+\end{itemize}
+
+\section*{July 14}
+\subsection*{Status}
+\begin{itemize}
+\item Tried to create a swing foot trajectory function that is parameterized by desired acceleration in the z-direction. Having trouble determining a good method of getting desired acceleration while maintaining desired single-support time.
+\item Took apart the wrist with Ben and Grey to figure out why the left wrist stopped working. After Ben gave the LSR a negative reference and banged it into the left knee, it only would rotate 30 degrees. We ran out of time and just put it back together. Kiwon fixed it on 7/15.
+\end{itemize}
+
 \section*{July 12}
 \subsection*{Status}
 \begin{itemize}
 \item Added derivative term to the hip nudging controller and tested it. Grey and I tried tuning the gains some and nothing dampened the oscillations, and at one point we brought the D-term higher than the P-term which resulted in rapid instability.
 \item Finished 7/10 tasks \#1, 2, and 4.
+\item Learned how to use Matt's hubo-logging repo, which includes a logger and a plotter, which is really useful.
 \end{itemize}
 \subsection*{Tasks}
 \begin{enumerate}
@@ -239,7 +255,7 @@ f_z = 0
 FootTF[LEFT] = legFK(qPrev[LEFT])
 \end{equation}
 \begin{equation}
-FootTF[RIGHT] = legFK(qPrev[RIGHTT])
+FootTF[RIGHT] = legFK(qPrev[RIGHT])
 \end{equation}
 
 where $\tau_x$ and $\tau_y$ are the measured torques minus the expected torques for the x and y axes. $f_x$ and $f_y$ are the instantaneous (every 0.005s) x- and y- position offsets of the feet given the torque feedback error. $iF_x$ and $iF_y$ are the integrated x- and y- position offsets of the feet with the hip yaws taken into account. This then gets premultiplied by the TFs from the body to the feet to get the new feet positions, on which we run the IK to get the new leg joint angles that will nudge our hips to counter any falling motion.
