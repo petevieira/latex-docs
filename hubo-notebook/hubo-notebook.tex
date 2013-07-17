@@ -44,6 +44,16 @@
 % JOURNAL ENTRIES
 % -------------------------------------------------------------------------------------
 
+\section*{July 16}
+\subsection*{Status}
+\begin{itemize}
+\item I helped Matt run his new quadruped zmp walking demo by having it write the trajectory to a text file and then running it using hubo-read-trajectory. It worked flawlessly after changing the peg lengths in the model. We performed 4 steps and 12 steps at 25, 50, 100 and 200 Hertz.
+\item I started merging his quadruped walking code into our hubomz. Plan for tomorrow is to have zmp-daemon working for either biped or quadruped walking.
+\item I explained hubomz and the whole zmp walking pipeline to Hong Fei from OSU and Tegu from Drexel, who will adopt hubomz for quadruped walking. We outlined a longterm plan to get to generating trajectories online potentially using feedback from the force/torque sensors to compute the actual zmp error, and specifying individual footsteps on the fly, which would eventually, hopefully beed done using vision and a footstep planner.
+\item Explained to Yung, Kiwon's apprentice, how to go about converting Kiwon's Matlab vehicle ingress planner and the Rainbow code that takes the end-effector trajectories and computes joint angles, into C++ or Python using hubo-ach.
+\item Helped Indiana and Purdue run their stair-climbing trajectory, since Hubo has been breaking a lot from their experiments. The right hip pitch was loose when they initial were going to try to climb the stairs, but I found some loose screws inside the hip, which after tightened seemed to fix the problem. Kiwon apparently has known about this problem and will need to disassemble the hip sometime to tighten everything down.
+\end{itemize}
+
 \section*{July 15}
 \subsection*{Status}
 \begin{itemize}
