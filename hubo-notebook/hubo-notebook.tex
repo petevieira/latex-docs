@@ -44,6 +44,27 @@
 % JOURNAL ENTRIES
 % -------------------------------------------------------------------------------------
 
+\section*{Tasks}
+\begin{itemize}
+\item Finish merging quadwalk.
+\item Verify and test impedance controller.
+\item Test spacenav.
+\item Add hip nudging with hip velocity ik to static balancing.
+\end{itemize}
+
+\section*{July 18}
+\subsection*{Status}
+\begin{itemize}
+\item Merged the quadruped branch into our golems master branch of hubomz. Quaddemo works and zmp-daemon starts but I need to fix my rviz stuff in order to test zmp-daemon fully.
+\item Tae-goo and I ran the quadruped walking on Hubo on the rough terrain mockup for 12 steps, just on the flat section. It worked just fine. Next step is to add manual footstep placement to try and walk up the wooden platforms in the mockup.
+The video is located at \href{http://www.youtube.com/watch?v=zqZra1Jmt9g&feature=youtu.be}{Quadruped Walking}
+\item Met with the controls discussion group. Jim from WPI is working on the operational space control, Kiwon from Drexel is working on a way to have Hubo slide over to the driver seat in the vehicle without drawing too much current, Ben from Columbia thinking about the best way to manipulate the hose for attatchment.
+\begin{itemize}
+\item Kaist's Compliance Control (Some boxes missing for feedback using the encoders)
+\newline \includegraphics[width=14.0cm]{resources/compliance-control}
+\end{itemize}
+\end{itemize}
+
 \section*{July 16}
 \subsection*{Status}
 \begin{itemize}
@@ -80,7 +101,7 @@
 \begin{enumerate}
 \item Make a swing foot trajectory function that has deceleration parameterized.
 \item Write controller that adjusts the hip height based on swing foot landing force to account for early landing or overshooting the stance foot.
-\item Weight the robot with and without the battery.
+\item Weigh the robot with and without the battery.
 \end{enumerate}
 
 \section*{July 11}
