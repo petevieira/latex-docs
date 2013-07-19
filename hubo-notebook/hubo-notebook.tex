@@ -52,7 +52,21 @@
 \item Add hip nudging with hip velocity ik to static balancing.
 \end{itemize}
 
+\section*{Troubleshooting}
+\begin{itemize}
+\item To remove old file from git history use "git filter-branch --index-filter 'git rm --cached --ignore-unmatch git.tbz2' -- 6df7640\string^.." . Reference \url{http://git-scm.com/book/ch9-7.html}.
+\end{itemize}
+
 \section*{July 18}
+\subsection*{Status}
+\begin{itemize}
+\item Wrote a controller for static balancing that moves to hips along the x-y plane with a velocity proportional to the error in the ankle torque sensors. This complements the other two controllers for static balancing in order to counter external forces acting on the robot due to such things as picking up rubble or a drill. Will test tomorrow morning.
+\item Wrote test program to verify the leg position FK/IK and hip velocity IK on the new robot. I will also compare with RobotKin's damped least square IK. Will test tomorrow morning before testing static balancing with the new hip nudging controller.
+\item Fixed Hubo\_Control's leg FK and IK to give identity when the leg joints are all at zero.
+\item Helped Yung understand how to parse his end-effector trajectories file in C++ and execute it on the robot.
+\end{itemize}
+
+\section*{July 17}
 \subsection*{Status}
 \begin{itemize}
 \item Merged the quadruped branch into our golems master branch of hubomz. Quaddemo works and zmp-daemon starts but I need to fix my rviz stuff in order to test zmp-daemon fully.
