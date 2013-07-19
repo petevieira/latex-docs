@@ -55,6 +55,23 @@
 \section*{Troubleshooting}
 \begin{itemize}
 \item To remove old file from git history use "git filter-branch --index-filter 'git rm --cached --ignore-unmatch git.tbz2' -- 6df7640\string^.." . Reference \url{http://git-scm.com/book/ch9-7.html}.
+\item hubo\_init sometimes loads and displays "N/A" for all the joints. This is because the default joint.table in /etc/hubo-ach is not the correct one. A quick fix is to run 'sudo hubo-ach start drc', which will copy the drchubo-beta.joint.table into joint.table.
+\end{itemize}
+
+\section*{July 19}
+\subsection*{Status}
+\begin{itemize}
+\item Fixed the leg lengths in huboLegIK to be the same as in the FK, so now it works fine.
+\item Tested the FK and IK in Hubo\_Control on the new Hubo, and it works now.
+\item Tested the hip velocity IK on the new Hubo and it worked. We just need to replace the current version with Grey's new derivation which doesn't make assumptions about the leg lengths.
+\item Successfully static balanced after switching the signs on the torque readings in the balance daemon, because the default on the boards is reversed.
+\newline Should we switch this in hubo-ach?
+\item I will test the hip nudging integrated into the static balancing tomorrow morning.
+\end{itemize}
+\subsection*{Misc}
+\begin{itemize}
+\item Helped Hong Fei set up the golems version of hubomz in order to learn how the hubo\_walk panel in rviz works and to look at the footprint generation for turning in place and sidestepping.
+\item Helped Yung get further on the end-effector parsing.
 \end{itemize}
 
 \section*{July 18}
