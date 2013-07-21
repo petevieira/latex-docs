@@ -56,6 +56,26 @@
 \begin{itemize}
 \item To remove old file from git history use "git filter-branch --index-filter 'git rm --cached --ignore-unmatch git.tbz2' -- 6df7640\string^.." . Reference \url{http://git-scm.com/book/ch9-7.html}.
 \item hubo\_init sometimes loads and displays "N/A" for all the joints. This is because the default joint.table in /etc/hubo-ach is not the correct one. A quick fix is to run 'sudo hubo-ach start drc', which will copy the drchubo-beta.joint.table into joint.table.
+\item Got error from balance-daemon saying it couldn't find libRobotKin.so. Fixed it by running "sudo ldconfig".
+\item libRobotKin.so: undefined reference to `urdf::parseURDF. Added "find\_package(urdfdom REQUIRED)" to CMakeLists.
+\item pkg-config --list-all. pkg-config --libs lurdfdom
+\end{itemize}
+
+\section*{July 20}
+\subsection*{Status}
+\begin{itemize}
+\item Hip nudging during static balancing works now. We need to tune the gains and think of ways to make it better.
+\newline Hip nudging gains:
+\begin{itemize}
+\item Flattening: 0.003
+\item IMU Gain: 0.012
+\item DS Hip Ndg: 0.0005
+\item Squat Vel: 0.2
+\end{itemize}
+\item Added to the hubo\_walk rviz panel a setting for center of mass offset in the x-direction for static balancing. The desired torque for the hip nudging is computed by multiplying the desired center of mass offset by the mass of the robot, taken from DrcHuboKin.
+\item Added installation and uninstallation to the CMakeLists.txt in hubo-motion-rt.
+\item Merged my hipVelocityIK branch into master on hubo-motion-rt.
+\item Tomorrow's plan is to check the error in the analytical IK for the arms due to the elbow offset and compare with the iterative IK, and investigate correcting the analytical IK. Also I will test my impedance controller for the legs.
 \end{itemize}
 
 \section*{July 19}
