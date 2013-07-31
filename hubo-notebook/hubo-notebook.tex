@@ -46,9 +46,10 @@
 
 \section*{Tasks}
 \begin{itemize}
-\item Finish merging quadwalk.
+\item Check for "stance" usage in zmp-daemon, zmpgui, Walker and replace with effector\_frame and supporting[4].
+\item Get biped/quadruped working with hubo\_walk panel.
 \item Verify and test impedance controller.
-\item Test spacenav.
+\item \textbf{DONE 7/23} Finish merging quadwalk.
 \item \textbf{DONE 7/20} Add hip nudging with hip velocity ik to static balancing.
 \end{itemize}
 
@@ -60,6 +61,65 @@
 \item Got error from balance-daemon saying it couldn't find libRobotKin.so. Fixed it by running "sudo ldconfig".
 \item libRobotKin.so: undefined reference to `urdf::parseURDF. Added "find\_package(urdfdom REQUIRED)" to CMakeLists.
 \item pkg-config --list-all. pkg-config --libs lurdfdom
+\end{itemize}
+
+\section*{July 30}
+\subsection*{Status}
+\begin{itemize}
+\item Almost done adding Quadruped ZMP parameters tab to hubo\_walk. Grey and I also fixed hubo\_walk so that if the user doesn't have hubomz, then it won't load the ZMP Parameters tab.
+\item Added in zmp\_state channel to the zmp-daemon to tell the hubo\_walk panel what the zmp-daemon is doing.
+\item Fixed the transitions between quadruped and biped based on Matt's latest bug fixes and discussion with him.
+\end{itemize}
+\subsection*{Tomorrow}
+\begin{itemize}
+\item Finish adding quadruped tab and zmp-daemon state to hubo\_walk panel.
+\item Finish writing zmp-daemon logic and test with zmpgui.
+\end{itemize}
+\subsection*{ZMP-DAEMON LOGIC}
+\begin{itemize}
+\item Start in zero position.
+\item If GOTO\_QUADRUPED, Lerp(linearly interpolate) to quad support pose.
+\item For QUADRUPED to BIPED, Lerp to zero position, then Lerp to biped support pose.
+\item If GOTO\_BIPED, Lerp to biped support pose.
+\item For BIPED to QUADRUPED, Lerp to zero position, then Lerp to quad support pose.
+\end{itemize}
+
+\section*{July 29}
+\subsection*{Status}
+\begin{itemize}
+\item Merged the golems and swatbotics hubomz repositories to match, which will help us use each other's code and make things easier in the future. The plan is to only send pull requests to Matt from a branch on the golems repo or from a new branch on the swatbotics repo, but he doesn't want us push directly to his master.
+\item Helped Matt find some bugs in his code that were making the merge of the quadwalk stuff into zmp-daemon difficult.
+\item Retested the static balancing and discussed with Jim about the best approach for using static balancing for his WPI's valve-turning task. We definitely need to add some dampening and tune gains better. We are still trying to get info from Yungbum about his dampening controller, but it's difficult to get anything out of him for some reason. Are current idea is for WPI to generate an upper body trajectory, plus a torso angle trajectory that we can follow, and maintain as an error term in the balance daemon.
+\end{itemize}
+
+\section*{July 25}
+\subsection*{Status}
+\begin{itemize}
+\item Got transition from biped to quadruped stance working in zmp-daemon. Transition back to biped seems to get generated in zmp-daemon, but zmpgui isn't showing any movement, so I am currently debugging this.
+\item Helped Grey test the gravity compensation. Torque calculations and amp to pwm duty conversion/interpolation seems to check out just fine. Grey talked to Yungbum late in the day and got some insight that should help.
+\item Matt derived the analytical IK for the arm with the elbow offset included. Just need to add handling of singularities.
+\item Demoed Hongfei's keyboard teleop program for quadruped walking to a visitor.
+\item Helped Rob and Yungbum weigh Hubo with a fish scale. Total mass without the battery is 49.8 kg.
+\end{itemize}
+
+\section*{July 24}
+\subsection*{Status}
+\begin{itemize}
+\item Added buttons to hubo\_walk panel for transitioning to and from quadruped stance.
+\item Refactored zmp-daemon code for ease of understanding and adjusting.
+\end{itemize}
+
+\section*{July 23}
+\subsection*{Status}
+\begin{itemize}
+\item Finished merging Matt's quadruped code into the zmp-daemon repo, so zmp-daemon, zmpdemo and quaddemo all work. Next step is to add a quadruped option in zmp-daemon and integrate into the hubo\_walk rviz panel.
+\item Helped Hongfei and Tae-gu run and debug quadruped teleop with the keyboard and hubo-read-trajectory, with Grey's awesome help.
+\end{itemize}
+
+\section*{July 22}
+\subsection*{Status}
+\begin{itemize}
+\item Started verifying impedance controller but discovered zmp-daemon uses a model that has a very inaccurate mass, which caused the expected forces to be way too small. So I will finish merging Matt's newest hubomz into zmp-daemon and then get back to verifying the impedance controller.
 \end{itemize}
 
 \section*{July 21}
