@@ -46,9 +46,11 @@
 
 \section*{Tasks}
 \begin{itemize}
-\item Check for "stance" usage in zmp-daemon, zmpgui, Walker and replace with effector\_frame and supporting[4].
+\item \textbf{DONE 7/25} Check for "stance" usage in zmp-daemon, zmpgui, Walker and replace with effector\_frame and supporting[4].
 \item Get biped/quadruped working with hubo\_walk panel.
 \item Verify and test impedance controller.
+\item Determine if we need torso\_pitch variable for both biped and quadruped in zmp params
+\item Fix tool tips in hubo\_walk
 \item \textbf{DONE 7/23} Finish merging quadwalk.
 \item \textbf{DONE 7/20} Add hip nudging with hip velocity ik to static balancing.
 \end{itemize}
@@ -61,6 +63,27 @@
 \item Got error from balance-daemon saying it couldn't find libRobotKin.so. Fixed it by running "sudo ldconfig".
 \item libRobotKin.so: undefined reference to `urdf::parseURDF. Added "find\_package(urdfdom REQUIRED)" to CMakeLists.
 \item pkg-config --list-all. pkg-config --libs lurdfdom
+\end{itemize}
+
+\section*{August 16}
+\subsection*{Issues Encountered}
+\begin{itemize}
+\item Walk Mode wasn't MODELESS on startup. This was because the hubo-zmp-state channel wasn't being destroyed every time.
+\item When transitioning to biped or quadruped the zmp/com moves right just slightly when centering zmp in bipedSupport.
+\end{itemize}
+
+\section*{August 15}
+\subsection*{Status}
+\begin{itemize}
+\item Loaded wrist boards with new firmware from KAIST. It was Version MOT-120701, now it's Version MOT-307250.
+\item Reconnected Left wrist/fingers board CAN cable.
+\item Tightened finger cable in right middle finger so it properly homes and opens now.
+\end{itemize}
+
+\section*{August 06}
+\subsection*{Status}
+\begin{itemize}
+\item If I put quadwalking into the GOTO\_QUADRUPED if statement and add in a centerZMP to biped support with emitTrajectory in between the foot step generation and the lerping, it works perfectly. But when I put the centeringZMP and lerping and foot steps into the quad walking if statement it says there's a jump in LSY.
 \end{itemize}
 
 \section*{July 30}
