@@ -46,12 +46,19 @@
 
 \section*{Tasks}
 \begin{itemize}
-\item Fix orientation in zmp contexts when turning in place.
+\item Merge hubo-motion-rt master branch into the devel/biped-quad branch and use control-daemon's trajectory mode.
+\item Make it so we can walk while keeping arms in their current positions for carrying objects.
+\item Modify the impedance controller logic to act as a landing controller during single-support phase.
+\item Test and fix biped walking on the robot.
+\item Get walking to a point/theta written and working.
+\item Add state feedback from Walker.
+\item \textbf{DONE 8/21} Fix orientation in zmp contexts when turning in place. \newline
+\textbf{Answer} makeBipedStartRef() and makeQuadStartRef() didn't use the last ZMPReferenceContext, and in Quadfootsteps.cpp, translation of the end-effectors was just being set, not pre-multiplied with identity rotation by the end-effector transform.
 \item \textbf{DONE 8/19} Get biped/quadruped working with hubo\_walk panel.
+\item \textbf{DONE 8/18} Fix tool tips in hubo\_walk
+\item \textbf{DONE 8/05} Determine if we need torso\_pitch variable for both biped and quadruped in zmp params. \textbf{Answer} We don't.
 \item \textbf{DONE 7/25} Check for "stance" usage in zmp-daemon, zmpgui, Walker and replace with effector\_frame and supporting[4].
 \item Verify and test impedance controller.
-\item \textbf{DONE 8/05} Determine if we need torso\_pitch variable for both biped and quadruped in zmp params. \textbf{Answer} We don't.
-\item Fix tool tips in hubo\_walk
 \item \textbf{DONE 7/23} Finish merging quadwalk.
 \item \textbf{DONE 7/20} Add hip nudging with hip velocity ik to static balancing.
 \end{itemize}
@@ -62,9 +69,16 @@
 \item Delete a branch locally and remotely: git push origin --delete <branch name>
 \item hubo\_init sometimes loads and displays "N/A" for all the joints. This is because the default joint.table in /etc/hubo-ach is not the correct one. A quick fix is to run 'sudo hubo-ach start drc', which will copy the drchubo-beta.joint.table into joint.table.
 \item Got error from balance-daemon saying it couldn't find libRobotKin.so. Fixed it by running "sudo ldconfig".
-\item libRobotKin.so: undefined reference to `urdf::parseURDF. Added "find\_package(urdfdom REQUIRED)" to CMakeLists.
+\item libRobotKin.so: undefined reference to urdf::parseURDF. Added "find\_package(urdfdom REQUIRED)" to CMakeLists.
 \item pkg-config --list-all. pkg-config --libs lurdfdom
 \item achd wasn't creating an 'achd serve' on Hubo's computer. The reason was because the program 'ufw', a firewall program, was installed and enabled on Hubo. Running 'sudo iptables --list' shows what's running. ssh was working. 'telnet 192.168.1.245 8076' was not working, which made Neil think there was a firewall running on Hubo. On Hubo, running 'sudo ufw disable' disabled ufw and allowed achd to work.
+\end{itemize}
+
+\section*{August 21}
+\subsection*{Status}
+\begin{itemize}
+\item Fixed Quadfootstep functions to account for current orientation of end-effectors.
+\item Biped and Quadruped walking and transitioning works with forward/backward/sidestepping/turning-in-place. But quaddemo sidestepping doesn't work any more. Need to fix.
 \end{itemize}
 
 \section*{August 19}
@@ -74,11 +88,11 @@
 \newline
 \begin{figure}
 \centering
-\includegraphics[width=8.0cm]{resources/HuboWalkPanel01}
+%\includegraphics[width=8.0cm]{resources/HuboWalkPanel01}
 \end{figure}
 \newline
-\includegraphics[width=8.0cm]{resources/BipedParams01}
-\includegraphics[width=8.0cm]{resources/QuadParams01}
+%\includegraphics[width=8.0cm]{resources/BipedParams01}
+%\includegraphics[width=8.0cm]{resources/QuadParams01}
 \end{itemize}
 
 \section*{August 16}
