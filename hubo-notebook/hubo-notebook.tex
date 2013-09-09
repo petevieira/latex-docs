@@ -52,6 +52,8 @@
 \item Test and fix biped walking on the robot.
 \item Get walking to a point/theta written and working.
 \item Add state feedback from Walker.
+\item Get rid of assertions in zmpwalkgenerator.
+\item Make sure we are in a walk mode before accepting a walk command.
 \item \textbf{DONE 8/21} Fix orientation in zmp contexts when turning in place. \newline
 \textbf{Answer} makeBipedStartRef() and makeQuadStartRef() didn't use the last ZMPReferenceContext, and in Quadfootsteps.cpp, translation of the end-effectors was just being set, not pre-multiplied with identity rotation by the end-effector transform.
 \item \textbf{DONE 8/19} Get biped/quadruped working with hubo\_walk panel.
