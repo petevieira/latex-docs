@@ -43,15 +43,34 @@
 % -------------------------------------------------------------------------------------
 % JOURNAL ENTRIES
 % -------------------------------------------------------------------------------------
+\section*{ICRA Submission Critical Tasks}
+Pete
+\begin{itemize}
+  \item Fix Biped walking.
+  \begin{itemize}
+    \item Test landing controller using impedance controller.
+    \item Try implementing Youngbum's ZMP Tracking controller.
+  \end{itemize}
+\end{itemize}
+Grey
+\begin{itemize}
+  \item Fix waist control.
+  \item Goto last command in Rviz.
+  \item Add end-effector 6-DOF interactive marker.
+  \item Add other Rviz feature requests.
+\end{itemize}
 
 \section*{Tasks}
 \begin{itemize}
 \item Merge hubo-motion-rt master branch into the devel/biped-quad branch and use control-daemon's trajectory mode.
+\item Change max number of steps in hubo\_walk.
+\item Add balance-cmd channel check in iterative function in zmpwalkgenerator, like comIK and addFootstep.
 \item Make it so we can walk while keeping arms in their current positions for carrying objects.
 \item Modify the impedance controller logic to act as a landing controller during single-support phase.
 \item Test and fix biped walking on the robot.
 \item Get walking to a point/theta written and working.
 \item Add state feedback from Walker.
+\item Verify and test impedance controller.
 \item Get rid of assertions in zmpwalkgenerator.
 \item Make sure we are in a walk mode before accepting a walk command.
 \item \textbf{DONE 8/21} Fix orientation in zmp contexts when turning in place. \newline
@@ -60,7 +79,6 @@
 \item \textbf{DONE 8/18} Fix tool tips in hubo\_walk
 \item \textbf{DONE 8/05} Determine if we need torso\_pitch variable for both biped and quadruped in zmp params. \textbf{Answer} We don't.
 \item \textbf{DONE 7/25} Check for "stance" usage in zmp-daemon, zmpgui, Walker and replace with effector\_frame and supporting[4].
-\item Verify and test impedance controller.
 \item \textbf{DONE 7/23} Finish merging quadwalk.
 \item \textbf{DONE 7/20} Add hip nudging with hip velocity ik to static balancing.
 \end{itemize}
@@ -99,6 +117,14 @@
   \end{figure}
 \end{itemize}
 
+\section*{August 29}
+\subsection*{Status}
+\begin{itemize}
+  \item Got the teleop pipeline running on my computer.
+  \item Updated mission manual with rviz configuration instructions for the teleop stuff
+  \item Almost done making it so we can walk with the last arm positions (ie. we can walk while holding things).
+\end{itemize}
+
 \section*{August 26}
 \subsection*{Status}
 \begin{itemize}
@@ -121,6 +147,19 @@
     \item run zmp-preview
     \item run COM IK
     \item execute joint trajectory
+\end{itemize}
+
+\section*{August 22}
+\subsection*{Status}
+\begin{itemize}
+\item Biped and Quadruped walking and transitioning works completely with forward/backward/sidestepping/turning-in-place. Just need to run a full test on the robot.
+\item
+\end{itemize} 
+\subsection*{Todo (Next Week)}
+\begin{itemize}
+\item Clean up Walker and adjust it to use the control-daemon's trajectory mode.
+\item Look into Yungbum's biped walking.
+\item Add landing controller, which just requires adding single-support phase logic to my impedance controller, which is already written but untested on the robot.
 \end{itemize}
 
 \section*{August 21}
