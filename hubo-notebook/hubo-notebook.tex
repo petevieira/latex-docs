@@ -96,6 +96,57 @@ Grey
 \item achd wasn't creating an 'achd serve' on Hubo's computer. The reason was because the program 'ufw', a firewall program, was installed and enabled on Hubo. Running 'sudo iptables --list' shows what's running. ssh was working. 'telnet 192.168.1.245 8076' was not working, which made Neil think there was a firewall running on Hubo. On Hubo, running 'sudo ufw disable' disabled ufw and allowed achd to work.
 \end{itemize}
 
+\section*{September 19}
+\subsection*{Biped Walking}
+Tuning COM Height, zmp\_offset\_x and zmp\_offset\_y with battery
+\begin{table}[h]
+    \centering
+    \caption{Biped ZMP Walking Tuning}
+    \begin{tabular}{|c|c|c|c|c|c|p{5cm}|} \hline
+    \multicolumn{7}{|c|}{ZMP Walking Parameters} \\ \hline
+        com\_z & fixed\_com\_offset\_z & zmp\_off\_x & zmp\_off\_y & Steps & step\_length & Results \\ \hline
+        0.82 & 0.275 & 0.02 & 0.007 & 16 & 0.1 & out of phase. Not enough sway, or COM too heigh \\ \hline
+        0.82 & 0.275 & 0.02 & 0.008 & 16 & 0.1 & \textbf{Good} \\ \hline
+        0.82 & 0.275 & 0.02 & 0.008 & 25 & 0.1 & \textbf{Good} \\ \hline
+        0.82 & 0.275 & 0.02 & 0.009 & 16 & 0.1 & \textbf{Good} \\ \hline
+        0.82 & 0.275 & 0.02 & 0.010 & 16 & 0.1 & No Good at end \\ \hline \hline
+        0.84 & 0.295 & 0.02 & 0.002 & 16 & 0.1 & Too little sway \\ \hline
+        0.84 & 0.295 & 0.02 & 0.004 & 16 & 0.1 & Too little sway \\ \hline
+        0.84 & 0.295 & 0.02 & 0.006 & 16 & 0.1 & Good but too little sway at beginning \\ \hline
+        0.84 & 0.295 & 0.02 & 0.007 & 16 & 0.1 & Good but ankles too a bit out of synch \\ \hline
+        0.84 & 0.295 & 0.02 & 0.008 & 16 & 0.1 & \textbf{Good} \\ \hline
+        0.84 & 0.295 & 0.02 & 0.009 & 16 & 0.1 & \textbf{Good} \\ \hline
+        0.84 & 0.295 & 0.02 & 0.010 & 16 & 0.1 & \textbf{Good}. End a bit shaky \\ \hline
+        0.84 & 0.295 & 0.02 & 0.010 & 25 & 0.1 & \textbf{Good} \\ \hline
+        0.84 & 0.295 & 0.02 & 0.011 & 16 & 0.1 & \textbf{Good} \\ \hline
+        0.84 & 0.295 & 0.02 & 0.012 & 16 & 0.1 & \textbf{Good} \\ \hline
+        0.84 & 0.295 & 0.02 & 0.013 & 16 & 0.1 & No Good \\ \hline \hline
+        0.86 & 0.315 & 0.02 & 0.008 & 16 & 0.1 & No Good. Too little sway \\ \hline
+        0.86 & 0.315 & 0.02 & 0.010 & 16 & 0.1 & \textbf{Good} \\ \hline
+        0.86 & 0.315 & 0.02 & 0.011 & 16 & 0.1 & Okay \\ \hline
+        0.86 & 0.315 & 0.02 & 0.012 & 16 & 0.1 & \textbf{Good} \\ \hline
+        0.86 & 0.315 & 0.02 & 0.013 & 16 & 0.1 & Good till end \\ \hline
+        0.86 & 0.315 & 0.02 & 0.014 & 16 & 0.1 & No Good \\ \hline \hline
+        0.90 & 0.355 & 0.02 & 0.012 & 16 & 0.1 & Pretty Good \\ \hline
+        0.90 & 0.355 & 0.02 & 0.013 & 16 & 0.1 & \textbf{Good} \\ \hline
+        0.90 & 0.355 & 0.02 & 0.014 & 16 & 0.1 & \textbf{Good} \\ \hline
+        0.90 & 0.355 & 0.02 & 0.015 & 16 & 0.1 & \textbf{Good} \\ \hline
+        0.90 & 0.355 & 0.02 & 0.016 & 16 & 0.1 & \textbf{Good} \\ \hline
+        0.90 & 0.355 & 0.02 & 0.017 & 16 & 0.1 & No Good \\ \hline \hline
+        0.94 & 0.395 & 0.02 & 0.015 & 16 & 0.1 & No Good \\ \hline
+        0.94 & 0.395 & 0.02 & 0.013 & 16 & 0.1 & Almost Okay \\ \hline
+        0.94 & 0.395 & 0.02 & 0.014 & 16 & 0.1 & Pretty Good \\ \hline
+        0.98 & 0.435 & 0.02 & 0.013 & 16 & 0.1 & Too little sway \\ \hline
+        0.98 & 0.435 & 0.02 & 0.014 & 16 & 0.1 & Too little sway \\ \hline
+        0.98 & 0.435 & 0.02 & 0.015 & 16 & 0.1 & Too little sway \\ \hline
+        0.98 & 0.435 & 0.02 & 0.016 & 16 & 0.1 & Pretty Good \\ \hline
+        0.98 & 0.435 & 0.02 & 0.017 & 16 & 0.1 & Pretty Good. Sketchy start \\ \hline
+        0.98 & 0.435 & 0.02 & 0.018 & 16 & 0.1 & \textbf{Good} \\ \hline
+        0.98 & 0.435 & 0.02 & 0.019 & 16 & 0.1 & Pretty Good \\ \hline
+        0.98 & 0.435 & 0.02 & 0.020 & 16 & 0.1 & No Good. But better start \\ \hline
+    \end{tabular}
+\end{table}
+
 \section*{September 18}
 \subsection*{Landing Controller}
 \begin{table}[h] 
@@ -106,7 +157,8 @@ Grey
         Tp & $\zeta$ & M & K & Q & Result \\ \hline
         0.6 & 0.999 & 1.0 & 13715 & 234 & Terrifying shudders \\ \hline
         N/A & N/A & 5.0 & 20000 & 3000 & Slow oscillations \\ \hline
-        2.2 & 0.999 & 25 & 25000 & 16000 & TBD \\ \hline
+        2.2 & 0.999 & 25 & 25000 & 16000 & Better but oscillated too soon \\ \hline
+        N/A & N/A & 55.0 * 25000 & 4000 & Good \\ \hline
     \end{tabular}
 \end{table}
 
