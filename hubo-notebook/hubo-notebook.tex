@@ -101,7 +101,7 @@ Grey
 Tuning COM Height, zmp\_offset\_x and zmp\_offset\_y with battery
 \begin{table}[h]
     \centering
-    \caption{Biped ZMP Walking Tuning}
+    \caption{Biped ZMP Walking Tuning of COM Height \& ZMP Y Offset}
     \begin{tabular}{|c|c|c|c|c|c|p{5cm}|} \hline
     \multicolumn{7}{|c|}{ZMP Walking Parameters} \\ \hline
         com\_z & fixed\_com\_offset\_z & zmp\_off\_x & zmp\_off\_y & Steps & step\_length & Results \\ \hline
@@ -121,6 +121,8 @@ Tuning COM Height, zmp\_offset\_x and zmp\_offset\_y with battery
         0.84 & 0.295 & 0.02 & 0.011 & 16 & 0.1 & \textbf{Good} \\ \hline
         0.84 & 0.295 & 0.02 & 0.012 & 16 & 0.1 & \textbf{Good} \\ \hline
         0.84 & 0.295 & 0.02 & 0.013 & 16 & 0.1 & No Good \\ \hline \hline
+        0.85 & 0.305 & 0.02 & 0.010 & 16 & 0.1 & Good \\ \hline
+        0.85 & 0.305 & 0.02 & 0.011 & 16 & 0.1 & Too much sway \\ \hline \hline
         0.86 & 0.315 & 0.02 & 0.008 & 16 & 0.1 & No Good. Too little sway \\ \hline
         0.86 & 0.315 & 0.02 & 0.010 & 16 & 0.1 & \textbf{Good} \\ \hline
         0.86 & 0.315 & 0.02 & 0.011 & 16 & 0.1 & Okay \\ \hline
@@ -147,6 +149,18 @@ Tuning COM Height, zmp\_offset\_x and zmp\_offset\_y with battery
     \end{tabular}
 \end{table}
 
+\begin{table}[h]
+    \centering
+    \caption{Biped ZMP Walking Tuning of ZMP X Offset}
+    \begin{tabular}{|c|c|c|c|c|c|p{5cm}|} \hline
+    \multicolumn{7}{|c|}{ZMP Walking Parameters} \\ \hline
+        com\_z & fixed\_com\_offset\_z & zmp\_off\_x & zmp\_off\_y & Steps & step\_length & Results \\ \hline
+        0.84 & 0.295 & 0.02 & 0.009 & 16 & 0.1 & Good \\ \hline
+        0.84 & 0.295 & 0.026 & 0.009 & 16 & -0.1 & Good \\ \hline
+        0.84 & 0.295 & 0.02 & 0.009 & 16 & side 0.3 & Good \\ \hline
+    \end{tabular}
+\end{table}
+
 \section*{September 18}
 \subsection*{Landing Controller}
 \begin{table}[h] 
@@ -158,7 +172,7 @@ Tuning COM Height, zmp\_offset\_x and zmp\_offset\_y with battery
         0.6 & 0.999 & 1.0 & 13715 & 234 & Terrifying shudders \\ \hline
         N/A & N/A & 5.0 & 20000 & 3000 & Slow oscillations \\ \hline
         2.2 & 0.999 & 25 & 25000 & 16000 & Better but oscillated too soon \\ \hline
-        N/A & N/A & 55.0 * 25000 & 4000 & Good \\ \hline
+        N/A & N/A & 55.0 & 25000 & 4000 & Good \\ \hline
     \end{tabular}
 \end{table}
 
