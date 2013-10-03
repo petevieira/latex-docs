@@ -94,6 +94,7 @@ Grey
 \item libRobotKin.so: undefined reference to urdf::parseURDF. Added "find\_package(urdfdom REQUIRED)" to CMakeLists.
 \item pkg-config --list-all. pkg-config --libs lurdfdom
 \item achd wasn't creating an 'achd serve' on Hubo's computer. The reason was because the program 'ufw', a firewall program, was installed and enabled on Hubo. Running 'sudo iptables --list' shows what's running. ssh was working. 'telnet 192.168.1.245 8076' was not working, which made Neil think there was a firewall running on Hubo. On Hubo, running 'sudo ufw disable' disabled ufw and allowed achd to work.
+\item If you get the error [ERROR] [1380756932.431344009]: PluginlibFactory: The plugin for class 'HuboInitPanel' failed to load.  Error: Could not find library corresponding to plugin HuboInitPanel. Make sure the plugin description XML file has the correct name of the library and that the library actually exists. This is caused by not sourcing /catkin\_ws/devel/setup.bash file in your .bashrc.
 \end{itemize}
 
 \section*{September 26}
