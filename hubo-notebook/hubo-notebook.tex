@@ -99,6 +99,20 @@ Grey
 \item If you get the error [ERROR] [1380756932.431344009]: PluginlibFactory: The plugin for class 'HuboInitPanel' failed to load.  Error: Could not find library corresponding to plugin HuboInitPanel. Make sure the plugin description XML file has the correct name of the library and that the library actually exists. This is caused by not sourcing /catkin\_ws/devel/setup.bash file in your .bashrc.
 \end{itemize}
 
+\section*{October 11}
+\subsection*{Humanoids Dril Demo}
+\begin{itemize}
+  \item sudo hubo-ach start drc
+  \item cd ~/other/walking-controllers/build
+  \item sudo ./read-trajectory -n ../traj/drill\_traj.txt -f 200 -i -c1
+  \item sudo ./handctrl r open
+  \item sudo ./handctrl r close
+  \item sudo ./read-trajectory -n ../trajs/drill\_traj.txt -f 200 -i
+  \item sudo ./handctrl r open
+  \item sudo ./handctrl r close
+  \item sudo ./read-trajectory -z
+\end{itemize}
+
 \section*{October 09}
 \subsection*{Status}
 \begin{itemize}
