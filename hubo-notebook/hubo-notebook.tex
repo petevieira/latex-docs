@@ -113,6 +113,24 @@ Grey
   \item sudo ./read-trajectory -z
 \end{itemize}
 
+\subsection*{Teleop GUI}
+\begin{itemize}
+  \item a-price/drchubo develop branch
+  \item golems/hubo\_gt\_ros nullspace branch
+  \item roslaunch fullbody-teleop
+  \item roslaunch hubo\_state
+  \item fixed frame: /planRightFoot
+  \item robot: robot\_planning\_description (for Robot Description)
+  \item robot: robot\_description (for Robot state)
+  \item pose: topic-/rh\_pose, axes length-.2, axes radius-.01
+  \item interactive marker: topic-joint\_controls/update
+  \item
+  \item git clone https://github.com/hubo/hubo\_head\_description
+  \item git checkout origin/teleop -- hubo\_drc\_vision/launch/hubo\_remote\_rgbd.launch (in hubo\_gt\_ros)
+  \item roslaunch hubo\_drc\_vision hubo\_remote\_rgbd.launch
+  \item roslaunch hubo\_drc\_vision hubo\_head.launch
+\end{itemize}
+
 \section*{October 09}
 \subsection*{Status}
 \begin{itemize}
