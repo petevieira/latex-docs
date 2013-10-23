@@ -100,8 +100,25 @@ Grey
 \item If you get the error [ERROR] [1380756932.431344009]: PluginlibFactory: The plugin for class 'HuboInitPanel' failed to load.  Error: Could not find library corresponding to plugin HuboInitPanel. Make sure the plugin description XML file has the correct name of the library and that the library actually exists. This is caused by not sourcing /catkin\_ws/devel/setup.bash file in your .bashrc.
 \end{itemize}
 
+\section*{October 23}
+\subsection*{DRC Prep Meeting}
+Locomotion
+\begin{itemize}
+  \item Static Walking
+	\begin{itemize}
+	  \item COM nudging using ZMP feedback
+	  \item ZMP Filtering
+	  \item ZMP Preview Control
+	\end{itemize}
+  \item Robust Dynamic Walking
+    \begin{itemize}
+      \item Implement 3-state impedance controller with averaging between feet
+    \end{itemize}
+  \item Static Balancing (Very general, ie. no assumptions)
+\end{itemize}
+
 \section*{October 11}
-\subsection*{Humanoids Dril Demo}
+\subsection*{Humanoids Drill Demo}
 \begin{itemize}
   \item sudo hubo-ach start drc
   \item cd ~/other/walking-controllers/build
