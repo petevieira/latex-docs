@@ -100,6 +100,25 @@ Grey
 \item If you get the error [ERROR] [1380756932.431344009]: PluginlibFactory: The plugin for class 'HuboInitPanel' failed to load.  Error: Could not find library corresponding to plugin HuboInitPanel. Make sure the plugin description XML file has the correct name of the library and that the library actually exists. This is caused by not sourcing /catkin\_ws/devel/setup.bash file in your .bashrc.
 \end{itemize}
 
+\section*{November 20}
+\subsection*{Drill Grasping Parameters}
+\begin{itemize}
+	\item Height above table: 11.8 cm
+	\item Angle w.r.t Drill about z: -8 degrees (ie. Angle b/t local x and drill bit is 8 degrees rotated negative about z 
+	\item Angle about local y: +4 degrees
+\end{itemize}
+
+\section*{November 03}
+\subsection*{Hubo-ach Audit}
+\begin{itemize}
+  \item Use clock\_monotonic, NOT clock\_realtime, because clock\_realtime can be discontinuous.
+  \item Position is constant for two ticks. Most likely encoder reading error, since the motors probably can't accelerate that fast.
+  \item IMU off: Delay b/t cmd and pos = 25ms. dt not okay.
+  \item IMU  on: Delay b/t cmd and pos = 130ms. dt okay.
+  \item Discontinuities in ref from state and pos.
+  \item Delay in dt.
+\end{itemize}
+
 \section*{October 23}
 \subsection*{DRC Prep Meeting}
 Locomotion
