@@ -25,7 +25,7 @@
 \begin{titlepage}
 \center
 % Headings
-\textsc{\LARGE Georgia Institute of Technology}\\[1.5cm]
+\textsc{\LARGE Georgia Ins Technology}\\[1.5cm]
 \textsc{\large Center for Robotics \& Intelligent Machines}\\[0.5cm]
 \textsc{\large Humanoid Robotics Lab}\\[0.5cm]
 % Title
@@ -33,7 +33,7 @@
 {\huge \bfseries Hubo Notebook}\\[0.4cm]
 \rule{\linewidth}{0.5mm}\\[1.5cm]
 % Author
-\textsc{\normalsize Peter Vieira}\\[1.5cm]
+\textsc{\normalsize Peter}\\[1.5cm]
 % Image
 \includegraphics[width=5.0cm]{resources/hubo-titlepage}
 % Fill rest of page with whitespace
@@ -100,11 +100,19 @@ Grey
 \item If you get the error [ERROR] [1380756932.431344009]: PluginlibFactory: The plugin for class 'HuboInitPanel' failed to load.  Error: Could not find library corresponding to plugin HuboInitPanel. Make sure the plugin description XML file has the correct name of the library and that the library actually exists. This is caused by not sourcing /catkin\_ws/devel/setup.bash file in your .bashrc.
 \end{itemize}
 
+\section*{November 21}
+\subsection*{Hokuyo Stuff}
+\begin{itemize}
+	\item Hokuyo ip address tool: http://www.hokuyo-aut.jp/02sensor/07scanner/download/products/utm-30lx-ew/
+    \item default ip: 192.168.1.47
+\end{itemize}
+
+
 \section*{November 20}
 \subsection*{Drill Grasping Parameters}
 \begin{itemize}
 	\item Height above table: 11.8 cm
-	\item Angle w.r.t Drill about z: -8 degrees (ie. Angle b/t local x and drill bit is 8 degrees rotated negative about z 
+	\item Angle w.r.t Drill about z: -8 degrees (ie. Angle b/t local x and drill bit is 8 degrees rotated negative about z
 	\item Angle about local y: +4 degrees
 \end{itemize}
 
@@ -287,7 +295,7 @@ Tuning COM Height, zmp\_offset\_x and zmp\_offset\_y with battery
 
 \section*{September 18}
 \subsection*{Landing Controller}
-\begin{table} 
+\begin{table}
     \centering
     \caption{Landing Controller Gains and Results}
     \begin{tabular}{|c|c|c|c|c|c|} \hline
@@ -345,12 +353,12 @@ Tuning COM Height, zmp\_offset\_x and zmp\_offset\_y with battery
 \begin{itemize}
     \item receive walk command
     \item generate n-sec zmp trajectory
-    \item mark double-support time in generated trajectory, T1. 
+    \item mark double-support time in generated trajectory, T1.
     \item repeat
 \end{itemize}
 \textbf{Walker}
 \begin{itemize}
-    \item receive zmp trajectory which consists mainly of an array or ZMPReferenceContexts. 
+    \item receive zmp trajectory which consists mainly of an array or ZMPReferenceContexts.
     \item run zmp-preview
     \item run COM IK
     \item execute joint trajectory
@@ -361,7 +369,7 @@ Tuning COM Height, zmp\_offset\_x and zmp\_offset\_y with battery
 \begin{itemize}
 \item Biped and Quadruped walking and transitioning works completely with forward/backward/sidestepping/turning-in-place. Just need to run a full test on the robot.
 \item
-\end{itemize} 
+\end{itemize}
 \subsection*{Todo (Next Week)}
 \begin{itemize}
 \item Clean up Walker and adjust it to use the control-daemon's trajectory mode.
@@ -645,7 +653,7 @@ The video is located at \href{http://www.youtube.com/watch?v=zqZra1Jmt9g&feature
 \begin{enumerate}
 \item Always balance before walking and use ankle offsets in walking trajectory.
 \begin{itemize}
-\item Doing this as is would mean when walking started, Hubo would "jolt" a bit forward to get to the initial ZMP\_x offset, which is currently 0.04m. 
+\item Doing this as is would mean when walking started, Hubo would "jolt" a bit forward to get to the initial ZMP\_x offset, which is currently 0.04m.
 \item Or using the COM height and the ZMP\_x offset to compute the new desired IMU angle about the y (pitch) axis.
 \end{itemize}
 \item Use accelerometers in the feet to flatten the feet without affecting the body position.
@@ -658,7 +666,7 @@ The video is located at \href{http://www.youtube.com/watch?v=zqZra1Jmt9g&feature
 \item Found old, uncorrected bug in control.table in hubo-motion-rt. The hip yaw and hip pitch for both legs were swapped, which affect how they get ordered in the leg joints arrays.
 \item Updated Walker.cpp to adjust both legs in both single and double support, and tested it on Hubo without actually changing the trajectory, but somehow it caused some jittery behavior. I will investigate this tomorrow.
 \item Added single and double support hip nudge gains to the hubo\_walk panel in rviz, and added the gains to the balance-daemon accordingly.
-\item Updated leg lengths constants and limits in HuboKin.cpp and the control.table in hubo-motion-rt. 
+\item Updated leg lengths constants and limits in HuboKin.cpp and the control.table in hubo-motion-rt.
 \end{itemize}
 \subsection*{Issues}
 \begin{itemize}
@@ -704,13 +712,13 @@ The video is located at \href{http://www.youtube.com/watch?v=zqZra1Jmt9g&feature
 \item decay gain = 0.5
 \item min force threshold = 12.0N
 \item max force threshold = 55.0N
-\end{itemize} 
+\end{itemize}
 \item 3. Dynamic walking didn't work well with the various parameters Matt and I tried. Hubo's joint shifting and body leaning became out of phase by a step each time (ie. when his legs were such that they would make him shift left, he was leaning right on the right edge of his feet.).
 \item Matt and I discussed the implementation of torque feedback to nudge the hips in the opposite direction of the falling and I will be ready to test it on Friday morning.
 
 \begin{equation}
 \begin{bmatrix}
-f_x \\ 
+f_x \\
 f_y \\
 f_z
 \end{bmatrix}
@@ -992,7 +1000,7 @@ planner and different walk types.
 ZmpPreview.h file, which is the actual zmp controller. The CoM inverse
 kinematics was a little hard to understand, but I understand enough to move
 forward with the finite horizon.
-\item I read through the Nishiwaki (2002) paper which presents online generation of 
+\item I read through the Nishiwaki (2002) paper which presents online generation of
 zmp walking trajectories. I modified Sungmoon's ZMP-Walking diagram and added
 the online receding-horizon method.
 \item Created presentation for TePRA with Rowland.
@@ -1073,7 +1081,7 @@ distance in front of the ankle from 0.04m to 0.038m helped.
 sensors in the wrist.
 \item Code:
 \url{https://github.com/pvieira3/hubo-misc/blob/master/test-code/src/impCtrl-arms.cpp}
-\item Code: \url{https://github.com/pvieira3/hubo-misc/blob/master/test-code/include/impedanceController.h} 
+\item Code: \url{https://github.com/pvieira3/hubo-misc/blob/master/test-code/include/impedanceController.h}
 \end{itemize}
 
 \section*{Mar 11-17}
@@ -1255,7 +1263,7 @@ cardboard using Fastrak motion tracking for the right hand and for squatting.
 workspace works for 3-DOF.
 \item Ana and I tested a simple version of center of mass calculation for the right
 leg. When we moved the leg, the location of the center of mass moved in the
-correct directions, but not with correct magnitudes. 
+correct directions, but not with correct magnitudes.
 \item Hubo Cutting Rectangle in Cardboard: 01/25/2013. This is a video of Hubo cutting
 a 15x10cm rectangle in cardboard, with two different camera angles, a main
 closeup view of the cut, and a second, smaller view in the top-right corner of
