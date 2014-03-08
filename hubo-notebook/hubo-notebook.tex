@@ -17,6 +17,7 @@
 % For mathematics
 \usepackage{mathtools}
 \usepackage[margin=1.0in]{geometry}
+\usepackage{listings}
 
 % -------------------------------------------------------------------------------------
 % TITLE PAGE
@@ -40,6 +41,36 @@
 \vfill
 \end{titlepage}
 
+
+\section*{March 8}
+\subsection*{Clock and Timer stuff (Cross-platform)}
+Nanosecond resolution for Linux and Mac. Microsecond resolution for Windows
+\begin{itemize}
+  \item Function to Use
+    \begin{itemize}
+    \item Linux: clock\_getTime(CLOCK\_MONOTONIC, struct timespec* t)
+    \item Windows: QueryPerformanceCounter() and QueryPerformanceFrequency()
+    \item Mac: mach\_absolute\_time()
+    \end{itemize}
+  \item Implementation
+    \begin{lstlisting}
+    inline double getTime() {
+#ifdef WIN32
+        LARGE_INTEGER time, freq;
+        QueryPerformanceCounter(&time);
+        QueryPerformanceFrequency(&freq);
+        return (1000LL * time.QuadPart) / freq.QuadPart;
+#elif defined(__APPLE__)
+        uint64_t time;
+        return double(*(uint64_t*)AbsoluteToNanoseconds(
+                      *(AbsoluteTime*)(mach_absolute_time()))) * 1e-9;
+p#else
+        struct timespec time;
+        clock_gettime(CLOCK_MONOTONIC, &time);
+        return time.tv_sec + (1e-9)*time.tv_nsec;
+#endif
+    \end{lstlisting}
+\end{itemize}
 % -------------------------------------------------------------------------------------
 % JOURNAL ENTRIES
 % -------------------------------------------------------------------------------------
