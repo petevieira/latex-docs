@@ -5,6 +5,7 @@
 % For colors
 \usepackage{color}
 % For hyperlink
+\usepackage{url}
 \PassOptionsToPackage{hyphens}{url}
 \usepackage{hyperref}
 \hypersetup{
@@ -102,7 +103,39 @@ During the building of the PhantomX Reactor arm I came across and learned by mis
     \begin{itemize}
       \item It is designed to provide power from the SMPS power supply but can also be powered by external power, such as a lithium ion battery.
     \end{itemize}
+    
+%------------------------
 
+\section{Using ROS with Dynamixel - 2014/05/23}
+  \subsection{Setup}
+    \begin{center}
+  	\includegraphics[width=10.0cm]{resources/usb2dxl-connections-labeled}
+	\end{center}
+    \begin{itemize}
+      \item Plugged USB2Dynamixel adapter into the USB-3 port on my computer
+      \item Connected the TTL 3-pin port on the adapter to one of the 3-pin ports on the SMPS2Dynamixel power adapter
+      \item Connected the other 3-pin port on the SMPS2Dynamixel power adapter to the Dynamixel motor with ID 1
+      \item Plugged the Reactor arm AC adapter into the SMPS2Dynamixel power adapter using the 2.1mm-to-2.5mm DC power plug adapter
+    \end{itemize}
+  \subsection{Identifying the Motors with ROS}
+    \begin{itemize}
+      \item Following the ROS dynamixel\_controllers tutorial "Connecting to Dynamixel Bus" I created a new ros package with "roscreate-pkg  my\_dynamixel\_tutorial dynamixel\_controllers" and created a launch file in the package that pings the motor IDs specified and displays the motors that it found (\url{http://wiki.ros.org/dynamixel_controllers/Tutorials/
+ConnectingToDynamixelBus})
+      \item The output was \newline
+      [INFO] [WallTime: 1400874215.506928] arm\_port: Pinging motor IDs 1 through 8... \newline
+      [INFO] [WallTime: 1400874215.949469] arm\_port: Found 8 motors - 8 AX-12 [1, 2, 3, 4, 5, 6, 7, 8], initialization complete.
+      \item rostopic echo /motor\_state/arm\_port displayed all the state feedback for the motors
+    \end{itemize}
+  \subsection{Creating a Joint Position Controller}
+    \begin{itemize}
+      \item Following the ROS dynamixel\_controllers tutorial "Creating a joint controller" I created a joint controller for the base servo (ID \#1). This allows you to set the type of controller, joint speed, and motor ID, min, max and init angle values. (\url{http://wiki.ros.org/dynamixel\_controllers/Tutorials/CreatingJointPositionController})
+      \item The output was \newline
+      process[base\_controller\_spawner-1]: started with pid [25011] \newline
+[INFO] [WallTime: 1405234746.116965] arm\_port controller\_spawner: waiting for controller\_manager dxl\_manager to startup in global namespace... \newline
+[INFO] [WallTime: 1405234746.126165] arm\_port controller\_spawner: All services are up, spawning controllers... \newline
+[INFO] [WallTime: 1405234746.202863] Controller base\_controller successfully started. \newline
+[base\_controller\_spawner-1] process has finished cleanl
+    \end{itemize}
 % -------------------------------------------------------------------------------------
 % REFERENCES
 % -------------------------------------------------------------------------------------
